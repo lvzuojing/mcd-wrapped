@@ -15,6 +15,22 @@
 
 > 麦当劳 1024 程序员节创意开发大赛参赛作品 · 非麦当劳官方产品
 
+## 如果你正在对接麦当劳 MCP，先看这个
+
+官方文档不太全，实测踩了 3 个坑，都在[探测器报告](out/mcp-explorer.md)里：
+
+1. 返回体**不是 JSON**，是 Markdown，真 JSON 藏在 `## Original Response` 之后
+2. `list-nutrition-foods` 的 data 是**逗号分隔文本表格**，不是 JSON
+3. 无数据时返回**中文文案**（如 `暂无可用优惠券`），不是空数组
+
+服务端实际暴露 **35 个** tool（文档写的是 33 个），探测器已跑通 **27 个**，
+7 个写操作默认不调用。不想看报告也行，直接跑：
+
+```bash
+export MCD_MCP_TOKEN=你的token
+python3 scripts/explore.py     # 零第三方依赖，输出 out/mcp-explorer.md
+```
+
 ![个人年报预览](out/preview.png)
 
 > 上图由真实 MCP 数据生成。样张来自授权测试账户，接入你自己的 Token 后会替换为你的真实数据。

@@ -1,0 +1,56 @@
+<svg viewBox="0 0 680 430" width="680" height="430" xmlns="http://www.w3.org/2000/svg" role="img">
+<title>麦当劳 MCP 35 个接口实测结果</title>
+<desc>35 个接口中 27 个实测调通，7 个写操作默认不调用，1 个缺参数；可获取 281 个派对城市、158 个餐品营养、50 件积分商品、15 个在售餐品。抽奖 10 连抽花 240 积分，期望换回 30.2 积分。</desc>
+<rect width="680" height="430" fill="#FFFFFF"/>
+
+<text x="40" y="42" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif" font-size="20" font-weight="500" fill="#2C2C2A">麦当劳 MCP 的 35 个接口，我全跑了一遍</text>
+<text x="40" y="64" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif" font-size="13" fill="#5F5E5A">服务端实际暴露 35 个，官方文档写的是 33 个</text>
+
+<rect x="40" y="86" width="461" height="52" rx="6" fill="#EAF3DE" stroke="#3B6D11" stroke-width="1"/>
+<text x="270" y="106" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif" font-size="15" font-weight="500" fill="#173404">27 个接口实测调通</text>
+<text x="270" y="124" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif" font-size="12" fill="#3B6D11">自动串联参数，返回真实数据</text>
+
+<rect x="503" y="86" width="137" height="52" rx="6" fill="#FCEBEB" stroke="#A32D2D" stroke-width="1"/>
+<text x="571" y="106" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif" font-size="15" font-weight="500" fill="#501313">7 个写操作</text>
+<text x="571" y="124" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif" font-size="12" fill="#A32D2D">默认不调用</text>
+
+<text x="40" y="166" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif" font-size="13" font-weight="500" fill="#2C2C2A">红线：这 7 个会真实下单 / 消耗积分 / 领券</text>
+
+<rect x="40" y="180" width="116" height="28" rx="6" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
+<text x="98" y="194" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#633806">auto-bind-coupons</text>
+<rect x="166" y="180" width="86" height="28" rx="6" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
+<text x="209" y="194" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#633806">draw-lottery</text>
+<rect x="262" y="180" width="92" height="28" rx="6" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
+<text x="308" y="194" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#633806">cancel-order</text>
+<rect x="364" y="180" width="92" height="28" rx="6" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
+<text x="410" y="194" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#633806">create-order</text>
+
+<rect x="40" y="216" width="152" height="28" rx="6" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
+<text x="116" y="230" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#633806">delivery-create-address</text>
+<rect x="202" y="216" width="122" height="28" rx="6" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
+<text x="263" y="230" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#633806">mall-create-order</text>
+<rect x="334" y="216" width="128" height="28" rx="6" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
+<text x="398" y="230" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#633806">party-order-create</text>
+
+<rect x="40" y="266" width="141" height="66" rx="8" fill="#F1EFE8"/>
+<text x="110" y="290" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif" font-size="24" font-weight="500" fill="#2C2C2A">281</text>
+<text x="110" y="312" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif" font-size="12" fill="#5F5E5A">派对城市</text>
+
+<rect x="193" y="266" width="141" height="66" rx="8" fill="#F1EFE8"/>
+<text x="263" y="290" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif" font-size="24" font-weight="500" fill="#2C2C2A">158</text>
+<text x="263" y="312" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif" font-size="12" fill="#5F5E5A">餐品营养</text>
+
+<rect x="346" y="266" width="141" height="66" rx="8" fill="#F1EFE8"/>
+<text x="416" y="290" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif" font-size="24" font-weight="500" fill="#2C2C2A">50</text>
+<text x="416" y="312" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif" font-size="12" fill="#5F5E5A">积分商品</text>
+
+<rect x="499" y="266" width="141" height="66" rx="8" fill="#F1EFE8"/>
+<text x="569" y="290" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif" font-size="24" font-weight="500" fill="#2C2C2A">15</text>
+<text x="569" y="312" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif" font-size="12" fill="#5F5E5A">在售餐品</text>
+
+<rect x="40" y="352" width="600" height="44" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
+<text x="340" y="368" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif" font-size="14" font-weight="500" fill="#412402">抽奖 10 连抽花 240 积分，期望只换回 30.2 积分</text>
+<text x="340" y="386" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif" font-size="12" fill="#854F0B">净亏 209.8 积分 — 价值全在券，不在积分</text>
+
+<text x="40" y="418" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif" font-size="12" fill="#888780">github.com/lvzuojing/mcd-wrapped · 麦当劳 1024 程序员节创意开发大赛参赛作品</text>
+</svg>
