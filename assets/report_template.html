@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{TITLE}} · 你的麦当劳年度报告</title>
+<style>
+:root{
+  --gold:#FFC72C; --red:#DA291C; --bg:#0d1117; --panel:#161b22;
+  --line:#21262d; --text:#e6edf3; --muted:#8b949e;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  line-height:1.6;padding:32px 16px 56px}
+.wrap{max-width:680px;margin:0 auto}
+header{border:1px solid var(--line);border-radius:14px;padding:28px 24px;
+  background:linear-gradient(180deg,#161b22 0%,#0d1117 100%);margin-bottom:20px}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+h1{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:30px;
+  letter-spacing:2px;font-weight:600}
+h1 em{color:var(--gold);font-style:normal}
+.sub{color:var(--muted);font-size:14px;margin-top:6px}
+.meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;
+  font-family:ui-monospace,monospace;font-size:12px}
+.badge{border:1px solid var(--line);border-radius:999px;padding:3px 10px;color:var(--muted)}
+.badge.live{border-color:var(--gold);color:var(--gold)}
+h2{font-size:15px;font-weight:600;margin:26px 0 12px;display:flex;align-items:center;gap:8px}
+h2::before{content:"";width:3px;height:14px;background:var(--gold);border-radius:2px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px}
+.clabel{font-size:12px;color:var(--muted)}
+.cvalue{font-family:ui-monospace,monospace;font-size:22px;color:var(--gold);
+  margin:4px 0 2px;word-break:break-all}
+.csub{font-size:11px;color:var(--muted)}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+.row{display:grid;grid-template-columns:28px 1fr 90px 52px;align-items:center;
+  gap:8px;padding:6px 0;font-size:13px}
+.rank{font-family:ui-monospace,monospace;color:var(--muted);font-size:12px}
+.iname{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar{height:8px;background:#21262d;border-radius:4px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--gold);border-radius:4px}
+.qty{font-family:ui-monospace,monospace;font-size:12px;color:var(--muted);text-align:right}
+.cells{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.cell{border-radius:8px;padding:10px 4px;text-align:center;min-height:58px;
+  display:flex;flex-direction:column;justify-content:center;gap:2px}
+.cell b{font-size:12px;color:#0d1117;font-weight:600}
+.cell span{font-family:ui-monospace,monospace;font-size:11px;color:#0d1117;opacity:.75}
+.strip{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.kv{display:flex;justify-content:space-between;padding:7px 0;
+  border-bottom:1px dashed var(--line);font-size:13px}
+.kv:last-child{border-bottom:none}
+.kv span{color:var(--muted)}
+.kv b{font-family:ui-monospace,monospace;color:var(--text);font-weight:500}
+footer{margin-top:28px;padding-top:16px;border-top:1px solid var(--line);
+  font-size:11px;color:var(--muted);line-height:1.7}
+@media(max-width:560px){.cards{grid-template-columns:repeat(2,1fr)}
+  .cells{grid-template-columns:repeat(4,1fr)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1><em>{{TITLE}}</em></h1>
+  <div class="sub">{{SUBTITLE}}</div>
+  <div class="meta">
+    <span class="badge">{{RANGE}}</span>
+    <span class="badge live">{{SOURCE_BADGE}}</span>
+    <span class="badge">generated {{GENERATED}}</span>
+  </div>
+</header>
+
+<h2>年度概览</h2>
+<div class="cards">{{CARDS}}</div>
+
+<h2>每月下单量</h2>
+<div class="panel">{{MONTH_BARS}}</div>
+
+<h2>高频单品</h2>
+<div class="panel">{{ITEM_ROWS}}</div>
+
+<h2>周几最想吃麦麦</h2>
+<div class="panel"><div class="cells">{{WEEKDAY_CELLS}}</div></div>
+
+<h2>一些数字</h2>
+<div class="panel">
+  <div class="strip">
+    <div>
+      <div class="kv"><span>年度最爱</span><b>{{TOP_ITEM}} × {{TOP_ITEM_QTY}}</b></div>
+      <div class="kv"><span>下单高峰</span><b>{{PEAK_HOUR}} 点</b></div>
+      <div class="kv"><span>取餐方式</span><b>{{CHANNEL}}</b></div>
+    </div>
+    <div>
+      <div class="kv"><span>累计能量</span><b>{{KCAL}} kcal</b></div>
+      <div class="kv"><span>约合步行</span><b>{{WALK_KM}} km</b></div>
+      <div class="kv"><span>京沪长途</span><b>{{WALK_REF}} 趟</b></div>
+      <div class="kv"><span>可用积分</span><b>{{POINTS}}</b></div>
+      <div class="kv"><span>即将过期</span><b>{{EXPIRING}}</b></div>
+    </div>
+  </div>
+</div>
+
+<h2>积分与券</h2>
+<div class="panel">
+  <div class="kv"><span>麦麦商城订单</span><b>{{MALL_COUNT}} 笔</b></div>
+  <div class="kv"><span>在手优惠券</span><b>{{COUPON_COUNT}} 张</b></div>
+  <div class="kv"><span>抽奖获得奖品</span><b>{{PRIZE_COUNT}} 份</b></div>
+</div>
+
+<footer>
+  本页由 mcd-wrapped 基于麦当劳 MCP 开放能力自动生成，数据来自本人麦当劳账户。<br>
+  能量数值为按公开餐品营养信息估算的参考值，不构成任何健康或营养建议。<br>
+  本作品为麦当劳程序员节创意开发大赛参赛项目，非麦当劳官方产品。
+</footer>
+
+</div>
+</body>
+</html>

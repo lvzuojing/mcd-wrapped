@@ -1,0 +1,11 @@
+# 真实账户数据与原始响应，永不入库
+data/
+out/*.aiff
+out/*.wav
+
+# 本地环境
+.env
+.venv/
+__pycache__/
+*.pyc
+.DS_Store

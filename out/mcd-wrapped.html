@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>M-CODE WRAPPED · 你的麦当劳年度报告</title>
+<style>
+:root{
+  --gold:#FFC72C; --red:#DA291C; --bg:#0d1117; --panel:#161b22;
+  --line:#21262d; --text:#e6edf3; --muted:#8b949e;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  line-height:1.6;padding:32px 16px 56px}
+.wrap{max-width:680px;margin:0 auto}
+header{border:1px solid var(--line);border-radius:14px;padding:28px 24px;
+  background:linear-gradient(180deg,#161b22 0%,#0d1117 100%);margin-bottom:20px}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+h1{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:30px;
+  letter-spacing:2px;font-weight:600}
+h1 em{color:var(--gold);font-style:normal}
+.sub{color:var(--muted);font-size:14px;margin-top:6px}
+.meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;
+  font-family:ui-monospace,monospace;font-size:12px}
+.badge{border:1px solid var(--line);border-radius:999px;padding:3px 10px;color:var(--muted)}
+.badge.live{border-color:var(--gold);color:var(--gold)}
+h2{font-size:15px;font-weight:600;margin:26px 0 12px;display:flex;align-items:center;gap:8px}
+h2::before{content:"";width:3px;height:14px;background:var(--gold);border-radius:2px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px}
+.clabel{font-size:12px;color:var(--muted)}
+.cvalue{font-family:ui-monospace,monospace;font-size:22px;color:var(--gold);
+  margin:4px 0 2px;word-break:break-all}
+.csub{font-size:11px;color:var(--muted)}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+.row{display:grid;grid-template-columns:28px 1fr 90px 52px;align-items:center;
+  gap:8px;padding:6px 0;font-size:13px}
+.rank{font-family:ui-monospace,monospace;color:var(--muted);font-size:12px}
+.iname{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar{height:8px;background:#21262d;border-radius:4px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--gold);border-radius:4px}
+.qty{font-family:ui-monospace,monospace;font-size:12px;color:var(--muted);text-align:right}
+.cells{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.cell{border-radius:8px;padding:10px 4px;text-align:center;min-height:58px;
+  display:flex;flex-direction:column;justify-content:center;gap:2px}
+.cell b{font-size:12px;color:#0d1117;font-weight:600}
+.cell span{font-family:ui-monospace,monospace;font-size:11px;color:#0d1117;opacity:.75}
+.strip{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.kv{display:flex;justify-content:space-between;padding:7px 0;
+  border-bottom:1px dashed var(--line);font-size:13px}
+.kv:last-child{border-bottom:none}
+.kv span{color:var(--muted)}
+.kv b{font-family:ui-monospace,monospace;color:var(--text);font-weight:500}
+footer{margin-top:28px;padding-top:16px;border-top:1px solid var(--line);
+  font-size:11px;color:var(--muted);line-height:1.7}
+@media(max-width:560px){.cards{grid-template-columns:repeat(2,1fr)}
+  .cells{grid-template-columns:repeat(4,1fr)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1><em>M-CODE WRAPPED</em></h1>
+  <div class="sub">你的麦当劳年度开发日志</div>
+  <div class="meta">
+    <span class="badge">2025-10-12 至 2026-10-07</span>
+    <span class="badge live">演示数据 · dry-run</span>
+    <span class="badge">generated 2026-10-09 16:52:02</span>
+  </div>
+</header>
+
+<h2>年度概览</h2>
+<div class="cards"><div class="card"><div class="clabel">年度下单总数</div><div class="cvalue">138</div><div class="csub">笔 · 相当于 138 次 commit</div></div><div class="card"><div class="clabel">年度消费总额</div><div class="cvalue">¥4384</div><div class="csub">客单价 ¥31.8</div></div><div class="card"><div class="clabel">优惠券省下</div><div class="cvalue">¥780</div><div class="csub">能再买 130 个甜筒</div></div><div class="card"><div class="clabel">深夜订单占比</div><div class="cvalue">7%</div><div class="csub">22:00 后的 10 笔 · 深夜编译指数</div></div><div class="card"><div class="clabel">最常去的门店</div><div class="cvalue">麦当劳(国贸三期店)</div><div class="csub">光顾 35 次</div></div><div class="card"><div class="clabel">连续打卡纪录</div><div class="cvalue">5 天</div><div class="csub">麦龄 359 天</div></div></div>
+
+<h2>每月下单量</h2>
+<div class="panel"><svg viewBox="0 0 620 140" width="100%" height="140" role="img" aria-label="近一年每月下单数"><rect x="9.8" y="14" width="32.0" height="106" rx="3" fill="#FFC72C"/><text x="25.8" y="9" font-size="10" fill="#8b949e" text-anchor="middle" font-family="ui-monospace,monospace">16</text><text x="25.8" y="134" font-size="10" fill="#6e7681" text-anchor="middle" font-family="ui-monospace,monospace">11</text><rect x="61.5" y="28" width="32.0" height="92" rx="3" fill="#FFC72C"/><text x="77.5" y="23" font-size="10" fill="#8b949e" text-anchor="middle" font-family="ui-monospace,monospace">14</text><text x="77.5" y="134" font-size="10" fill="#6e7681" text-anchor="middle" font-family="ui-monospace,monospace">12</text><rect x="113.1" y="61" width="32.0" height="59" rx="3" fill="#FFC72C"/><text x="129.2" y="56" font-size="10" fill="#8b949e" text-anchor="middle" font-family="ui-monospace,monospace">9</text><text x="129.2" y="134" font-size="10" fill="#6e7681" text-anchor="middle" font-family="ui-monospace,monospace">01</text><rect x="164.8" y="48" width="32.0" height="72" rx="3" fill="#FFC72C"/><text x="180.8" y="43" font-size="10" fill="#8b949e" text-anchor="middle" font-family="ui-monospace,monospace">11</text><text x="180.8" y="134" font-size="10" fill="#6e7681" text-anchor="middle" font-family="ui-monospace,monospace">02</text><rect x="216.5" y="34" width="32.0" height="86" rx="3" fill="#FFC72C"/><text x="232.5" y="29" font-size="10" fill="#8b949e" text-anchor="middle" font-family="ui-monospace,monospace">13</text><text x="232.5" y="134" font-size="10" fill="#6e7681" text-anchor="middle" font-family="ui-monospace,monospace">03</text><rect x="268.1" y="74" width="32.0" height="46" rx="3" fill="#FFC72C"/><text x="284.2" y="69" font-size="10" fill="#8b949e" text-anchor="middle" font-family="ui-monospace,monospace">7</text><text x="284.2" y="134" font-size="10" fill="#6e7681" text-anchor="middle" font-family="ui-monospace,monospace">04</text><rect x="319.8" y="81" width="32.0" height="39" rx="3" fill="#FFC72C"/><text x="335.8" y="76" font-size="10" fill="#8b949e" text-anchor="middle" font-family="ui-monospace,monospace">6</text><text x="335.8" y="134" font-size="10" fill="#6e7681" text-anchor="middle" font-family="ui-monospace,monospace">05</text><rect x="371.5" y="41" width="32.0" height="79" rx="3" fill="#FFC72C"/><text x="387.5" y="36" font-size="10" fill="#8b949e" text-anchor="middle" font-family="ui-monospace,monospace">12</text><text x="387.5" y="134" font-size="10" fill="#6e7681" text-anchor="middle" font-family="ui-monospace,monospace">06</text><rect x="423.1" y="48" width="32.0" height="72" rx="3" fill="#FFC72C"/><text x="439.2" y="43" font-size="10" fill="#8b949e" text-anchor="middle" font-family="ui-monospace,monospace">11</text><text x="439.2" y="134" font-size="10" fill="#6e7681" text-anchor="middle" font-family="ui-monospace,monospace">07</text><rect x="474.8" y="41" width="32.0" height="79" rx="3" fill="#FFC72C"/><text x="490.8" y="36" font-size="10" fill="#8b949e" text-anchor="middle" font-family="ui-monospace,monospace">12</text><text x="490.8" y="134" font-size="10" fill="#6e7681" text-anchor="middle" font-family="ui-monospace,monospace">08</text><rect x="526.5" y="48" width="32.0" height="72" rx="3" fill="#FFC72C"/><text x="542.5" y="43" font-size="10" fill="#8b949e" text-anchor="middle" font-family="ui-monospace,monospace">11</text><text x="542.5" y="134" font-size="10" fill="#6e7681" text-anchor="middle" font-family="ui-monospace,monospace">09</text><rect x="578.1" y="74" width="32.0" height="46" rx="3" fill="#FFC72C"/><text x="594.2" y="69" font-size="10" fill="#8b949e" text-anchor="middle" font-family="ui-monospace,monospace">7</text><text x="594.2" y="134" font-size="10" fill="#6e7681" text-anchor="middle" font-family="ui-monospace,monospace">10</text></svg></div>
+
+<h2>高频单品</h2>
+<div class="panel"><div class="row"><span class="rank">01</span><span class="iname">麦辣鸡腿堡</span><span class="bar"><i style="width:100%"></i></span><span class="qty">32 份</span></div><div class="row"><span class="rank">02</span><span class="iname">双层吉士汉堡</span><span class="bar"><i style="width:90%"></i></span><span class="qty">29 份</span></div><div class="row"><span class="rank">03</span><span class="iname">大薯条</span><span class="bar"><i style="width:68%"></i></span><span class="qty">22 份</span></div><div class="row"><span class="rank">04</span><span class="iname">麦旋风</span><span class="bar"><i style="width:65%"></i></span><span class="qty">21 份</span></div><div class="row"><span class="rank">05</span><span class="iname">板烧鸡腿堡</span><span class="bar"><i style="width:62%"></i></span><span class="qty">20 份</span></div><div class="row"><span class="rank">06</span><span class="iname">零度可乐</span><span class="bar"><i style="width:62%"></i></span><span class="qty">20 份</span></div></div>
+
+<h2>周几最想吃麦麦</h2>
+<div class="panel"><div class="cells"><div class="cell" style="background:rgba(255,199,44,1.00)"><b>周一</b><span>28</span></div><div class="cell" style="background:rgba(255,199,44,0.45)"><b>周二</b><span>10</span></div><div class="cell" style="background:rgba(255,199,44,0.91)"><b>周三</b><span>25</span></div><div class="cell" style="background:rgba(255,199,44,0.79)"><b>周四</b><span>21</span></div><div class="cell" style="background:rgba(255,199,44,0.54)"><b>周五</b><span>13</span></div><div class="cell" style="background:rgba(255,199,44,0.54)"><b>周六</b><span>13</span></div><div class="cell" style="background:rgba(255,199,44,1.00)"><b>周日</b><span>28</span></div></div></div>
+
+<h2>一些数字</h2>
+<div class="panel">
+  <div class="strip">
+    <div>
+      <div class="kv"><span>年度最爱</span><b>麦辣鸡腿堡 × 32</b></div>
+      <div class="kv"><span>下单高峰</span><b>19 点</b></div>
+      <div class="kv"><span>取餐方式</span><b>外送 41% / 到店 59%</b></div>
+    </div>
+    <div>
+      <div class="kv"><span>累计能量</span><b>109210 kcal</b></div>
+      <div class="kv"><span>约合步行</span><b>1761.5 km</b></div>
+      <div class="kv"><span>京沪长途</span><b>1.5 趟</b></div>
+      <div class="kv"><span>可用积分</span><b>1280</b></div>
+      <div class="kv"><span>即将过期</span><b>300</b></div>
+    </div>
+  </div>
+</div>
+
+<h2>积分与券</h2>
+<div class="panel">
+  <div class="kv"><span>麦麦商城订单</span><b>9 笔</b></div>
+  <div class="kv"><span>在手优惠券</span><b>3 张</b></div>
+  <div class="kv"><span>抽奖获得奖品</span><b>2 份</b></div>
+</div>
+
+<footer>
+  本页由 mcd-wrapped 基于麦当劳 MCP 开放能力自动生成，数据来自本人麦当劳账户。<br>
+  能量数值为按公开餐品营养信息估算的参考值，不构成任何健康或营养建议。<br>
+  本作品为麦当劳程序员节创意开发大赛参赛项目，非麦当劳官方产品。
+</footer>
+
+</div>
+</body>
+</html>
