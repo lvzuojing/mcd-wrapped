@@ -16,21 +16,21 @@
 
 <text x="40" y="166" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif" font-size="13" font-weight="500" fill="#2C2C2A">红线：这 7 个会真实下单 / 消耗积分 / 领券</text>
 
-<rect x="40" y="180" width="116" height="28" rx="6" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
-<text x="98" y="194" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#633806">auto-bind-coupons</text>
-<rect x="166" y="180" width="86" height="28" rx="6" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
-<text x="209" y="194" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#633806">draw-lottery</text>
-<rect x="262" y="180" width="92" height="28" rx="6" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
-<text x="308" y="194" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#633806">cancel-order</text>
-<rect x="364" y="180" width="92" height="28" rx="6" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
-<text x="410" y="194" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#633806">create-order</text>
+<rect x="40" y="180" width="151" height="28" rx="6" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
+<text x="115" y="194" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#633806">auto-bind-coupons</text>
+<rect x="201" y="180" width="115" height="28" rx="6" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
+<text x="258" y="194" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#633806">draw-lottery</text>
+<rect x="326" y="180" width="115" height="28" rx="6" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
+<text x="384" y="194" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#633806">cancel-order</text>
+<rect x="451" y="180" width="115" height="28" rx="6" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
+<text x="508" y="194" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#633806">create-order</text>
 
-<rect x="40" y="216" width="152" height="28" rx="6" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
-<text x="116" y="230" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#633806">delivery-create-address</text>
-<rect x="202" y="216" width="122" height="28" rx="6" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
-<text x="263" y="230" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#633806">mall-create-order</text>
-<rect x="334" y="216" width="128" height="28" rx="6" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
-<text x="398" y="230" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#633806">party-order-create</text>
+<rect x="40" y="216" width="194" height="28" rx="6" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
+<text x="137" y="230" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#633806">delivery-create-address</text>
+<rect x="244" y="216" width="151" height="28" rx="6" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
+<text x="320" y="230" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#633806">mall-create-order</text>
+<rect x="405" y="216" width="158" height="28" rx="6" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
+<text x="484" y="230" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#633806">party-order-create</text>
 
 <rect x="40" y="266" width="141" height="66" rx="8" fill="#F1EFE8"/>
 <text x="110" y="290" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif" font-size="24" font-weight="500" fill="#2C2C2A">281</text>
