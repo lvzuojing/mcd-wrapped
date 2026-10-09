@@ -223,6 +223,16 @@ def render(data, template_path=TEMPLATE):
         "COUPON_COUNT": "%d" % m["coupon_count"],
         "PRIZE_COUNT": "%d" % m["prize_count"],
     }
+    if m["order_count"] == 0:
+        mapping["CARDS"] = (
+            '<div class="panel" style="grid-column:1/-1;text-align:center;'
+            'padding:26px 16px">'
+            '<div style="font-size:14px;margin-bottom:6px">该账号暂无历史订单数据</div>'
+            '<div style="font-size:12px;color:var(--muted);line-height:1.7">'
+            'MCP 连接正常，积分与餐品营养数据已读取成功。<br>'
+            '换用一个有下单记录的手机号申请 Token，即可生成完整年报。</div>'
+            '</div>')
+        mapping["SOURCE_BADGE"] = "真实数据 · 订单为空"
     for k, v in mapping.items():
         tpl = tpl.replace("{{%s}}" % k, str(v))
     return tpl

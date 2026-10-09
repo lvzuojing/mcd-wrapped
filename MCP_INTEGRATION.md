@@ -27,6 +27,27 @@ Python 3.9+ 标准库即可运行。脱敏配置见 `mcp-config.example.json`。
 合计使用 7 个 tool。全部为只读调用，项目不创建、不取消、不支付任何订单；
 `draw-lottery` 会真实消耗积分，默认流程不调用。
 
+## 返回格式（实测，官方未说明）
+
+麦当劳 MCP 的 tool 返回**不是裸 JSON，而是 Markdown 文本**：
+
+```
+# API Response Information
+## Response Structure      <- 字段说明
+## Original Response       <- 真正的 JSON 在这个段落里
+```
+
+客户端必须先从 `## Original Response` 之后抽取 JSON 才能解析。
+`scripts/collect.py` 的 `parse_markdown_payload()` 负责这件事。
+
+另外两种特殊情况，同样是实测得到：
+
+1. **`list-nutrition-foods` 的 `data` 是纯文本表格，不是 JSON**：
+   `[160]{productName,energyKcal,...}:` 后接 160 行逗号分隔数据，
+   需要按表头解析（`parse_nutrition_text()`）。
+2. **无数据时部分 tool 返回中文文本**，例如 `query-my-coupons` 直接返回
+   `暂无可用优惠券`，而不是空数组。
+
 ## 调用流程
 
 ```

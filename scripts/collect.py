@@ -35,10 +35,72 @@ TOOLS = [
 TIME_KEYS = ["orderTime", "createTime", "createdAt", "payTime", "gmtCreate",
              "time", "date", "orderDate", "createAt"]
 NAME_KEYS = ["mealName", "productName", "itemName", "goodsName", "name", "title"]
-PRICE_KEYS = ["price", "amount", "payAmount", "totalAmount", "realAmount", "sellPrice"]
+PRICE_KEYS = ["realTotalAmount", "payAmount", "totalAmount", "realAmount",
+              "orderAmount", "amount", "price", "sellPrice"]
 QTY_KEYS = ["quantity", "qty", "num", "count", "amount_num"]
 STORE_KEYS = ["storeName", "shopName", "store", "shop", "restaurantName"]
 CHANNEL_KEYS = ["channel", "orderType", "scene", "deliveryType", "dineType"]
+
+
+def parse_markdown_payload(raw):
+    """McDonald's MCP returns Markdown, not JSON.
+
+    The tool content looks like:
+        ## Response Structure
+        ...field docs...
+        ## Original Response
+        {"success":true,...,"data":{...}}
+
+    Pull the JSON out of the "Original Response" block and return a python
+    object. Falls back to the raw string when no JSON is present (some tools
+    answer with plain text such as "暂无可用优惠券").
+    """
+    if not isinstance(raw, str):
+        return raw
+    marker = "## Original Response"
+    chunk = raw.split(marker, 1)[1] if marker in raw else raw
+    decoder = json.JSONDecoder()
+    for start in (i for i, ch in enumerate(chunk) if ch in "{["):
+        try:
+            obj, _ = decoder.raw_decode(chunk[start:])
+            return obj
+        except ValueError:
+            continue
+    return raw
+
+
+def parse_nutrition_text(text):
+    """Nutrition comes back as a delimited text table, not JSON.
+
+        [160]{productName,nutritionDescription,energyKj,energyKcal,...}:
+          猪柳麦满分,null,1288,308,16,16,24,781,213
+    """
+    if not isinstance(text, str):
+        return {}
+    m = re.search(r"\{([^}]*)\}\s*:", text)
+    if not m:
+        return {}
+    cols = [c.strip() for c in m.group(1).split(",")]
+    try:
+        kcal_i = next(i for i, c in enumerate(cols)
+                      if c.lower() in ("energykcal", "kcal", "能量"))
+        name_i = next(i for i, c in enumerate(cols)
+                      if c.lower() in ("productname", "name", "餐品名称"))
+    except StopIteration:
+        return {}
+    out = {}
+    for line in text[m.end():].splitlines():
+        line = line.strip()
+        if not line or line.startswith("["):
+            continue
+        parts = [p.strip() for p in line.split(",")]
+        if len(parts) != len(cols):
+            continue
+        try:
+            out[parts[name_i]] = float(parts[kcal_i])
+        except (ValueError, IndexError):
+            continue
+    return out
 
 
 def save_raw(name, payload):
@@ -217,7 +279,7 @@ def extract_account(payload):
             lk = str(k).lower()
             if "available" in lk or "usable" in lk or lk in ("points", "point"):
                 acc.setdefault("points_available", to_number(v))
-            elif "total" in lk and "point" in lk:
+            elif "accumulative" in lk or ("total" in lk and "point" in lk):
                 acc.setdefault("points_total", to_number(v))
             elif "expir" in lk or "过期" in str(k):
                 acc.setdefault("points_expiring", to_number(v))
@@ -230,7 +292,7 @@ def collect(token=None):
     raw = {}
     for tool in TOOLS:
         try:
-            raw[tool] = unwrap(client.call_tool(tool, {}))
+            raw[tool] = parse_markdown_payload(unwrap(client.call_tool(tool, {})))
             print("  ok   %s" % tool)
         except McpError as e:
             print("  fail %s -> %s" % (tool, e))
@@ -238,8 +300,13 @@ def collect(token=None):
         save_raw(tool, raw[tool])
 
     nutrition_kcal, nutrition_price = {}, {}
-    if raw.get("list-nutrition-foods"):
-        nutrition_kcal, nutrition_price = extract_nutrition(raw["list-nutrition-foods"])
+    n_raw = raw.get("list-nutrition-foods")
+    if isinstance(n_raw, str):
+        nutrition_kcal = parse_nutrition_text(n_raw)
+    elif isinstance(n_raw, dict) and isinstance(n_raw.get("data"), str):
+        nutrition_kcal = parse_nutrition_text(n_raw["data"])
+    elif n_raw:
+        nutrition_kcal, nutrition_price = extract_nutrition(n_raw)
 
     orders = extract_orders(raw.get("order-list"), nutrition_kcal) if raw.get("order-list") else []
     mall = extract_simple_list(raw.get("mall-order-list"), NAME_KEYS, TIME_KEYS) \
@@ -266,8 +333,15 @@ def collect(token=None):
     with open(out, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
     print("collected %d orders -> %s" % (len(orders), out))
+    print("  points      : %s" % data["account"])
+    print("  mall orders : %d" % len(mall))
+    print("  coupons     : %d" % len(coupons))
+    print("  prizes      : %d" % len(prizes))
+    print("  nutrition   : %d items mapped" % len(nutrition_kcal))
     if not orders:
-        print("! no orders parsed; inspect data/raw/order-list.json and extend the field map")
+        print("! no orders parsed. two possible causes:")
+        print("  1. the account really has no order history (check data/raw/order-list.json)")
+        print("  2. field mapping drifted -> extend the *_KEYS lists in collect.py")
     return data
 
 

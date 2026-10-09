@@ -63,6 +63,22 @@ python3 scripts/speak.py --dry-run
 
 全部通过。报告无残留占位符，播报稿生成正常。
 
+### 5. 真实 MCP 联调
+
+拿到 MCP Token 后执行 `scripts/collect.py`，7 个 tool 全部调用成功，
+过程中发现三个官方文档未说明的行为：
+
+1. **返回体是 Markdown 而非 JSON**，真正的 JSON 在 `## Original Response` 段落之后
+2. **`list-nutrition-foods` 的 `data` 是纯文本表格**（160 行逗号分隔），不是 JSON
+3. **无数据时部分 tool 返回中文文本**（如 `暂无可用优惠券`），而非空数组
+
+修复方式：新增 `parse_markdown_payload()` 抽取 Markdown 中的 JSON，
+新增 `parse_nutrition_text()` 解析文本表格，并补充真实字段名到候选键列表。
+
+修复后验证结果：积分账户解析正确，餐品营养映射成功 158 项。
+`order-list` 入参定义为空对象（无必填参数），返回 `data` 为空对象，
+确认该账号本身没有历史订单记录，非调用方式问题。
+
 ## 使用过的 WorkBuddy 能力
 
 - Agent 模式（文件编辑、bash 执行）

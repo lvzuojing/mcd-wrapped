@@ -14,6 +14,35 @@
 | `list-nutrition-foods` | 餐品营养成分（能量/蛋白质/脂肪/碳水/钠/钙） | 订单热量估算，换算为中性参照值 |
 | `now-time-info` | 当前时间 | 报告生成时间戳 |
 
+## 实测返回结构（2026-10-09）
+
+`order-list` 入参为空对象，无必填参数。真实返回路径为 `data.list[]`：
+
+```
+data.list[].orderId            订单编码
+data.list[].orderType          订单类型
+data.list[].createTime         下单时间
+data.list[].storeName          门店名称
+data.list[].storeCode / beCode / beType
+data.list[].orderStatus        订单状态
+data.list[].realTotalAmount    实付总金额
+data.list[].orderProductList[] 商品
+    .productCode / .productName / .quantity / .comboItemList
+```
+
+`mall-order-list` 路径为 `data[].list[]`（外层还有 `hasNext`、`lastId`），
+商品在 `.goods[]`，入参支持 `size`（默认 10，上限 10）与 `lastId` 分页。
+
+`query-my-account` 路径为 `data`，字段：
+`availablePoint` `accumulativePoint` `usedPoint` `frozenPoint`
+`expiredPoint` `currentMouthExpirePoint` `nextMouthExpirePoint` `lastMouthExpirePoint`
+（均为字符串类型的数字）
+
+`query-my-prizes` 路径为 `data.prizes[]`，字段 `name` `recordTime` `statusText`。
+
+`list-nutrition-foods` 的 `data` 是文本表格，表头：
+`productName,nutritionDescription,energyKj,energyKcal,protein,fat,carbohydrate,sodium,calcium`
+
 ## 未使用但可扩展
 
 - `query-nearby-stores` / `delivery-query-stores`：门店维度分析
