@@ -133,3 +133,30 @@ Python 3.9+ 标准库即可运行。脱敏配置见 `mcp-config.example.json`。
 麦当劳 MCP 的返回字段以服务端为准。项目不做硬绑定，而是用候选键列表 +
 递归遍历的方式提取（见 `references/mcp_tools.md`），每次采集都会把原始响应
 落盘到 `data/raw/`，字段变化时只需补键名，无需改动数据结构。
+
+## 全量能力探测（35 个 tool）
+
+`scripts/explore.py` 会遍历服务端暴露的全部 tool（实测 35 个，多于文档所载 33 个），
+按是否可安全调用分为三类，本次实测结果：
+
+| 类别 | 数量 | 处理方式 |
+|---|---|---|
+| 只读·无参数 | 12 | 直接调用 |
+| 只读·需参数 | 15 | 从其他 tool 的返回里取真实值自动串联后调用 |
+| 只读·缺参数 | 1（`delivery-query-stores`，缺 `addressId`） | 只展示参数定义 |
+| 写操作 | 7 | **不调用**，仅展示参数定义与风险说明 |
+
+写操作清单（安全红线）：`draw-lottery`（消耗积分）、`create-order`、`cancel-order`、
+`mall-create-order`（扣积分兑换）、`auto-bind-coupons`（领券改状态）、
+`party-order-create`、`delivery-create-address`。
+
+自动串联用到的取值路径：
+
+| 参数 | 来源 | 路径 |
+|---|---|---|
+| `storeCode` | `order-list` | `data.list[0].storeCode` |
+| `orderId` | `order-list` | `data.list[0].orderId` |
+| `code` | `order-list` | `data.list[0].orderProductList[0].productCode` |
+| `spuId` / `skuId` | `mall-points-products` | `data[0].spuId` |
+
+探测产物：`out/mcp-explorer.md`（可读报告）与 `data/tool_inventory.json`（结构化清单）。
