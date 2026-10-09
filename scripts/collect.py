@@ -173,6 +173,66 @@ def norm_time(v):
     return m.group().replace("/", "-").replace("T", " ") if m else s
 
 
+def lookup_kcal(table, name):
+    """Nutrition names do not always match order-line names.
+
+    "麦辣鸡翅-2块" should still hit the entry recorded as "麦辣鸡翅".
+    """
+    if not table or not name:
+        return 0.0
+    if name in table:
+        return table[name]
+    for sep in ("-", "（", "(", " "):
+        if sep in name:
+            base = name.split(sep)[0].strip()
+            if base in table:
+                return table[base]
+    for k, v in table.items():
+        if k and len(k) >= 3 and (k in name or name in k):
+            return v
+    return 0.0
+
+
+def extract_line_items(d):
+    """McDonald's hides real SKUs in orderProductList[].comboItemList[].
+
+    Those line items carry no unit price, so price stays 0 there and the order
+    total comes from realTotalAmount. Falls back to a generic recursive scan
+    for other account shapes.
+    """
+    items = []
+    for p in (d.get("orderProductList") or []):
+        if not isinstance(p, dict):
+            continue
+        combo = p.get("comboItemList") or []
+        if combo:
+            for c in combo:
+                if not isinstance(c, dict):
+                    continue
+                nm = c.get("name") or c.get("productName")
+                if nm:
+                    items.append({"name": str(nm),
+                                  "qty": int(to_number(c.get("quantity") or 1) or 1),
+                                  "price": 0.0})
+        else:
+            nm = p.get("productName")
+            if nm:
+                items.append({"name": str(nm),
+                              "qty": int(to_number(p.get("quantity") or 1) or 1),
+                              "price": 0.0})
+    if items:
+        return items
+    generic, store_name = [], pick(d, STORE_KEYS)
+    for sub in walk(d):
+        if isinstance(sub, dict):
+            nm = pick(sub, NAME_KEYS)
+            if nm and str(nm) != str(store_name):
+                generic.append({"name": str(nm),
+                                "qty": int(to_number(pick(sub, QTY_KEYS) or 1) or 1),
+                                "price": round(to_number(pick(sub, PRICE_KEYS)), 2)})
+    return generic
+
+
 def extract_orders(payload, nutrition_kcal):
     orders = []
     for lst in find_dict_lists(payload, TIME_KEYS):
@@ -180,37 +240,15 @@ def extract_orders(payload, nutrition_kcal):
             ts = norm_time(pick(d, TIME_KEYS))
             if not re.match(r"\d{4}-\d{2}-\d{2}", ts or ""):
                 continue
-            items = []
-            for sub in walk(d):
-                if isinstance(sub, dict):
-                    nm = pick(sub, NAME_KEYS)
-                    pr = pick(sub, PRICE_KEYS)
-                    if nm and pr is not None:
-                        items.append({
-                            "name": str(nm),
-                            "qty": int(to_number(pick(sub, QTY_KEYS) or 1) or 1),
-                            "price": round(to_number(pr), 2),
-                        })
-                elif isinstance(sub, list):
-                    for x in sub:
-                        if isinstance(x, dict):
-                            nm = pick(x, NAME_KEYS)
-                            pr = pick(x, PRICE_KEYS)
-                            if nm and pr is not None:
-                                items.append({
-                                    "name": str(nm),
-                                    "qty": int(to_number(pick(x, QTY_KEYS) or 1) or 1),
-                                    "price": round(to_number(pr), 2),
-                                })
-            # de-duplicate items while preserving order
-            seen, uniq = set(), []
+            items = extract_line_items(d)
+            # de-duplicate items while preserving order, summing quantities
+            agg = {}
             for it in items:
-                if it["name"] in seen:
-                    continue
-                seen.add(it["name"])
-                uniq.append(it)
-            total = to_number(pick(d, ["payAmount", "realAmount", "totalAmount",
-                                       "orderAmount", "amount", "price"]))
+                cur = agg.setdefault(it["name"], {"name": it["name"], "qty": 0, "price": it["price"]})
+                cur["qty"] += it["qty"]
+            uniq = list(agg.values())
+            total = to_number(pick(d, ["realTotalAmount", "payAmount", "realAmount",
+                                       "totalAmount", "orderAmount", "amount", "price"]))
             if not total:
                 total = sum(i["price"] for i in uniq)
             orders.append({
@@ -222,7 +260,7 @@ def extract_orders(payload, nutrition_kcal):
                 "discount": round(to_number(pick(d, ["discountAmount", "discount",
                                                      "couponAmount"])), 2),
                 "total": round(total, 2),
-                "kcal": sum(nutrition_kcal.get(i["name"], 0) * i["qty"] for i in uniq),
+                "kcal": sum(lookup_kcal(nutrition_kcal, i["name"]) * i["qty"] for i in uniq),
             })
         if orders:
             break
