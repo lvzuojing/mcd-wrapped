@@ -1,0 +1,30 @@
+<svg viewBox="0 0 1080 1440" width="1080" height="1440" xmlns="http://www.w3.org/2000/svg" role="img">
+<title>麦当劳积分抽奖期望值测算</title>
+<desc>10 连抽消耗 240 积分，期望换回 30.2 积分，净亏 209.8 积分。抽奖的价值在券，不在积分。</desc>
+<rect width="1080" height="1440" fill="#FFFFFF"/>
+<rect x="0" y="0" width="1080" height="200" fill="#2C2C2A"/>
+<text x="80" y="92" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif" font-size="56" font-weight="500" fill="#FFFFFF">麦当劳麦麦积分抽奖</text>
+<text x="80" y="152" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif" font-size="28" fill="#B4B2A9">用官方 MCP 接口数据算了一遍</text>
+
+<text x="80" y="292" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif" font-size="32" fill="#5F5E5A">10 连抽消耗</text>
+<text x="80" y="420" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif" font-size="150" font-weight="500" fill="#2C2C2A">240 积分</text>
+
+<path d="M110 500 L110 570 M80 545 L110 575 L140 545" fill="none" stroke="#888780" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+
+<text x="80" y="650" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif" font-size="32" fill="#5F5E5A">期望换回</text>
+<text x="80" y="778" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif" font-size="150" font-weight="500" fill="#A32D2D">30.2 积分</text>
+
+<rect x="80" y="846" width="920" height="100" rx="12" fill="#FCEBEB" stroke="#A32D2D" stroke-width="1.5"/>
+<text x="120" y="896" dominant-baseline="central" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif" font-size="48" font-weight="500" fill="#501313">净亏 209.8 积分</text>
+<text x="880" y="896" text-anchor="end" dominant-baseline="central" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif" font-size="26" fill="#A32D2D">回本率 12.6%</text>
+
+<rect x="80" y="986" width="920" height="200" rx="12" fill="#FAEEDA" stroke="#BA7517" stroke-width="1.5"/>
+<text x="120" y="1056" dominant-baseline="central" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif" font-size="38" font-weight="500" fill="#412402">抽奖的价值在券，不在积分</text>
+<text x="120" y="1116" dominant-baseline="central" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif" font-size="30" fill="#854F0B">券要是用不掉，240 积分就是打水漂</text>
+
+<text x="80" y="1268" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif" font-size="30" fill="#5F5E5A">单次 24 积分 · 奖池 10 种奖品</text>
+<text x="80" y="1318" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif" font-size="30" fill="#5F5E5A">7 张优惠券 + 30 积分返还</text>
+
+<text x="80" y="1392" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif" font-size="24" fill="#888780">麦当劳未公布中奖概率，以上为等概率假设下 1 万次蒙特卡洛模拟</text>
+<text x="80" y="1428" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif" font-size="24" fill="#888780">脚本只做模拟，从不调用抽奖接口 · github.com/lvzuojing/mcd-wrapped</text>
+</svg>
