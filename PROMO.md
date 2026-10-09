@@ -185,9 +185,27 @@
 
 ---
 
-## 六、可以顺手做的几件小事
+## 六、顺手做完的几件小事
 
-- [ ] 给仓库加 topic 标签：`mcdonalds` `mcp` `1024` `skill` `data-report`（增加被搜到的概率）
-- [ ] README 顶部加一句"如果你在对接麦当劳 MCP，直接看 `out/mcp-explorer.md`"
-- [ ] 在自我介绍里挂上仓库链接（GitHub Profile README）
-- [ ] 报名 Issue #73 下追加一条评论，说明探测器能力（让主办方和其他参赛者看到）
+- [x] 给仓库加 topic 标签：`mcdonalds` `mcp` `1024` `skill` `data-report` `hackathon` `workbuddy` `mcp-server`
+- [x] README 顶部加了「如果你正在对接麦当劳 MCP，先看这个」入口
+- [x] GitHub Profile README 挂上项目链接（新建 `lvzuojing/lvzuojing`，已推到默认分支 `main`）
+- [x] 报名 Issue #73 下追加探测器说明评论（官方已回复「您的作品已成功参赛」）
+
+---
+
+## 附：官方渠道全集
+
+大赛仓库只有 4 个文件，**没有任何官方比赛群**（规则全文 94 行，不含微信群/Discord/飞书）。
+官方声明 GitHub 官方账号及该仓库是唯一官方渠道，非官方群勿信。
+
+| 内容 | 链接 |
+|---|---|
+| 活动主页 + 报名方式 | https://github.com/M-China/mcd-developer-innovation-challenge |
+| 完整活动规则 | https://github.com/M-China/mcd-developer-innovation-challenge/blob/main/activityGuidelines.md |
+| 排行榜（实时） | https://github.com/M-China/mcd-developer-innovation-challenge/blob/main/RANKING.md |
+| **参赛者聚集地**（92 个报名 Issue） | https://github.com/M-China/mcd-developer-innovation-challenge/issues |
+| MCP Server 使用指南 | https://github.com/M-China/mcd-mcp-server |
+| 申请 Token | https://open.mcd.cn/mcp |
+
+> `M-China-Official` 是 `M-China` 的 301 重定向，两个地址等价。
