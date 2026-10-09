@@ -14,17 +14,30 @@ Python 3.9+ 标准库即可运行。脱敏配置见 `mcp-config.example.json`。
 
 ## 调用的 Tool 与业务价值
 
+### 公共全景模式（不依赖消费记录）
+
+| Tool | 调用目的 | 业务价值 |
+|---|---|---|
+| `list-nutrition-foods` | 获取 158 个餐品营养数据 | 热量 TOP10、低卡 TOP10、热量分布直方图 |
+| `campaign-calendar` | 获取当月营销活动日历 | 活动时间线：标题、内容、图片 |
+| `query-lottery-info` | 获取积分抽奖活动与奖品池 | 抽奖消耗、奖品清单、概率披露 |
+| `mall-points-products` | 获取积分商城商品列表 | 商品、类目、积分价、现金价 |
+| `available-coupons` | 获取麦麦省当前可领券 | 优惠券清单 |
+| `now-time-info` | 获取当前时间 | 报告生成时间戳 |
+
+### 个人年度消费模式
+
 | Tool | 调用目的 | 业务价值 |
 |---|---|---|
 | `order-list` | 拉取近期到店/外送历史订单 | 年报主干数据：消费额、客单价、月度趋势、高频单品、门店排行、深夜下单、连续打卡 |
-| `mall-order-list` | 拉取麦麦商城近一年兑换/购买订单 | 呈现积分的实际去向，让"积分花在哪"首次可见 |
-| `query-my-account` | 读取积分账户（可用/累计/冻结/即将过期） | 提示即将过期积分，避免用户积分作废 |
-| `query-my-coupons` | 读取在手优惠券 | 汇总未使用券，衔接"省了多少钱" |
+| `mall-order-list` | 拉取麦麦商城近一年兑换/购买订单 | 呈现积分的实际去向 |
+| `query-my-account` | 读取积分账户（可用/累计/即将过期） | 提示即将过期积分 |
+| `query-my-coupons` | 读取在手优惠券 | 汇总未使用券 |
 | `query-my-prizes` | 读取抽奖获得的奖品记录 | 把抽奖战绩并入年度报告 |
-| `list-nutrition-foods` | 获取餐品能量数据 | 为订单估算能量，换算成中性参照值（步行里程、京沪长途） |
+| `list-nutrition-foods` | 获取餐品能量数据 | 为订单估算能量 |
 | `now-time-info` | 获取当前时间 | 报告生成时间戳 |
 
-合计使用 7 个 tool。全部为只读调用，项目不创建、不取消、不支付任何订单；
+合计使用 8 个 tool，全部为只读调用。项目不创建、不取消、不支付任何订单；
 `draw-lottery` 会真实消耗积分，默认流程不调用。
 
 ## 返回格式（实测，官方未说明）
@@ -49,6 +62,33 @@ Python 3.9+ 标准库即可运行。脱敏配置见 `mcp-config.example.json`。
    `暂无可用优惠券`，而不是空数组。
 
 ## 调用流程
+
+### 公共全景模式
+
+```
+1. initialize
+2. notifications/initialized
+3. tools/call list-nutrition-foods
+4. tools/call campaign-calendar
+5. tools/call query-lottery-info
+6. tools/call mall-points-products
+7. tools/call available-coupons
+8. tools/call now-time-info
+      |
+      v
+   字段解析（Markdown 抽取、文本表格、中文空态）
+      |
+      v
+   data/public_data.json
+      |
+      v
+   指标计算 -> HTML 渲染 -> out/mcd-wrapped.html
+      |
+      v
+   可选：方言语音播报（scripts/speak.py）
+```
+
+### 个人年度消费模式
 
 ```
 1. initialize            -> 建立会话，取回 Mcp-Session-Id

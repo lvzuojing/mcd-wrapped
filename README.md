@@ -1,75 +1,58 @@
 # M-CODE WRAPPED
 
-**你的麦当劳年度开发日志。**
+**麦当劳数据全景报告。**
 
-基于 [麦当劳 MCP](https://github.com/M-China/mcd-mcp-server) 开放能力，把你本人账户里
-分散在订单页、会员中心、卡包、活动页的数据聚合成一份年度报告——
-花了多少、点了什么、几点下单、常去哪家店、券省了多少钱、积分还剩多少，
-一页看完，还能让粤语版的声音念给你听。
+基于 [麦当劳 MCP](https://github.com/M-China/mcd-mcp-server) 开放能力，把散落在多个官方接口里的公共数据聚合成一份可截图、可转发的全景报告：
+158 个餐品营养档案、当月营销活动日历、积分抽奖池、麦麦省可领券、积分商城商品——一次看透 MNCP 到底能拿到什么。
 
-> 麦当劳程序员节创意开发大赛参赛作品 · 非麦当劳官方产品
+也支持接入你自己的 Token，生成**个人年度消费年报**，并配上粤语/方言语音播报。
+
+> 麦当劳 1024 程序员节创意开发大赛参赛作品 · 非麦当劳官方产品
 
 ![报告预览](out/preview.png)
 
-> 样张由 `scripts/demo_data.py` 的演示数据生成。接入你自己的 Token 后，
-> 跑一次 `collect.py` 就换成真实数据，版式完全一致。
+> 上图由真实 MCP 公共数据实时生成。标有 `100% 真实数据 · MNCP` 徽章，所有数字可复现。
 
 ## 为什么不是"又一个点餐助手"
 
-大赛里大多数作品在做同一件事：怎么更便宜地下单。这个项目换个方向——
-**把已经发生过的一年，变成一份值得截图的东西。**
+大赛里绝大多数作品在做同一件事：怎么更便宜地下单。这个项目换个方向——
+**把 MCP 能拿到的数据摊开来，做成一份值得点星的数据报告。**
 
 | | 点餐助手 | M-CODE WRAPPED |
 |---|---|---|
-| 解决的问题 | 这一顿怎么买 | 这一年我都干了什么 |
-| 数据视角 | 单次 | 跨模块、跨时间聚合 |
-| 产物 | 一个订单 | 一份可转发的报告 + 一段方言语音 |
-| 没有 Token 时 | 无法演示 | dry-run 出样张 |
+| 视角 | 省钱、下单 | 数据可视化、全景 |
+| 是否需要消费记录 | 需要 | **不需要，公共数据即可出报告** |
+| 产物 | 一个订单 | 一份可转发的 HTML 报告 + 方言语音 |
+| 独特性 | 红海撞车 | 几乎没人做 |
 
 ## 快速开始
 
-### 1. 申请 MCP Token
-
-打开 [open.mcd.cn/mcp](https://open.mcd.cn/mcp)，手机号登录 → 控制台 → 激活 → 复制 Token。
+### 方式 A：公共全景报告（不需要消费记录）
 
 ```bash
 export MCD_MCP_TOKEN=你的token
-```
-
-### 2. 拉数据
-
-```bash
-git clone https://github.com/<你的用户名>/mcd-wrapped.git
+git clone https://github.com/lvzuojing/mcd-wrapped.git
 cd mcd-wrapped
-python3 scripts/collect.py          # 需要 Python 3.9+，无第三方依赖
+python3 scripts/public_data.py        # 采集麦当劳公共数据
+python3 scripts/build_panorama.py       # -> out/mcd-wrapped.html
 ```
 
-原始响应会存到 `data/raw/`，归一化结果写到 `data/report_data.json`。
-
-### 3. 出报告
+### 方式 B：个人年度消费年报
 
 ```bash
-python3 scripts/build_report.py     # -> out/mcd-wrapped.html
+export MCD_MCP_TOKEN=你的token
+python3 scripts/collect.py            # 采集本人订单/积分/券/商城
+python3 scripts/build_report.py       # -> out/mcd-wrapped.html
 ```
 
-打开 `out/mcd-wrapped.html`，截图，转发。
+> 所有 Token 只通过环境变量传入，不会写进任何会被 git 跟踪的文件。
 
-**没有 Token 也能看效果：**
+### 没有 Token 也能看样张
 
 ```bash
-python3 scripts/demo_data.py        # 生成一份确定性演示数据
-python3 scripts/build_report.py
+python3 scripts/demo_data.py          # 生成确定性演示数据
+python3 scripts/build_report.py       # 个人年报样张
 ```
-
-## 在 WorkBuddy 里用
-
-把 `mcp-config.example.json` 的内容填进 WorkBuddy 的自定义连接器
-（把 `${MCD_MCP_TOKEN}` 换成真实 Token），然后直接说：
-
-> 帮我看看今年在麦当劳花了多少钱
-
-或者装上本 Skill（把 `mcd-wrapped/` 整个目录放到 `~/.workbuddy/skills/` 下），
-WorkBuddy 会自动识别并完成采集、渲染、播报全流程。
 
 ## 方言播报
 
@@ -88,49 +71,61 @@ export VOXCPM_REF_AUDIO=/path/to/四川话参考音频.wav
 python3 scripts/speak.py --dialect voxcpm
 ```
 
-接上 VoxCPM2 和方言参考音频后，可以克隆任意方言音色来念这份报告。
+## 报告里有什么
 
-## 报告里有哪些数字
+公共全景模式：
 
-年度下单总数 · 年度消费总额 · 客单价 · 券省下的钱 · 深夜订单占比（深夜编译指数） ·
-最常去的门店 · 连续打卡纪录 · 麦龄 · 每月下单趋势 · 高频单品 Top 6 · 周几最想吃 ·
-下单高峰时段 · 取餐方式占比 · 累计能量与中性参照 · 可用积分与即将过期积分 ·
-麦麦商城订单 · 在手优惠券 · 抽奖奖品
+- 158 个餐品的营养数据库
+- 热量 TOP10 / 低卡 TOP10 / 热量分布直方图
+- 当月营销活动日历（含标题、摘要、图片）
+- 积分抽奖池：单次消耗、奖品清单、概率说明
+- 麦麦省当前可领券
+- 麦麦积分商城：商品、类目、积分/现金价
+
+个人年报模式：
+
+- 年度下单总数、消费总额、客单价
+- 深夜订单占比、最常去门店、连续打卡纪录
+- 高频单品 Top 6、月度趋势、周几偏好
+- 可用积分与即将过期积分
+- 已领奖、优惠券、商城订单
 
 ## 目录结构
 
 ```
 mcd-wrapped/
 ├── SKILL.md                      Skill 定义，供 Agent 驱动全流程
-├── MCP_INTEGRATION.md            使用的 MCP tool、调用流程与业务价值
+├── MCP_INTEGRATION.md            使用的 MCP tool、调用流程与踩坑记录
 ├── CONTEST_DECLARATION.md        参赛声明（官方原文，未修改）
+├── workbuddy.md                  使用 WorkBuddy 参赛的补充说明
 ├── mcp-config.example.json       脱敏配置，仅环境变量占位符
 ├── scripts/
 │   ├── mcp_client.py             MCP Streamable HTTP 客户端
-│   ├── collect.py                采集 + 字段归一化
+│   ├── public_data.py            公共数据采集与解析
+│   ├── build_panorama.py         全景报告渲染
+│   ├── collect.py                个人数据采集 + 字段归一化
 │   ├── demo_data.py              演示数据（dry-run）
-│   ├── build_report.py           指标计算 + HTML 渲染
+│   ├── build_report.py           个人年报渲染
 │   └── speak.py                  方言语音播报
 ├── references/
 │   ├── mcp_tools.md              tool 清单与字段归一化说明
 │   └── compliance.md             输出内容合规红线
-└── assets/
-    └── report_template.html      报告模板
+├── assets/
+│   ├── panorama_template.html    全景报告模板
+│   └── report_template.html      个人年报模板
+└── out/
+    ├── mcd-wrapped.html          最新报告
+    └── preview.png               README 预览图
 ```
 
 ## 合规说明
 
-- 项目只用真实 Token 读取本人数据，不创建、不取消、不支付任何订单
+- 项目**只读**官方数据，不创建、不取消、不支付任何订单
 - 配置文件仅使用环境变量占位符，不含任何凭证
 - `draw-lottery` 会真实消耗积分，默认流程不调用
 - 能量数值按公开营养信息估算，仅供参考，不构成健康或营养建议
+- 抽奖期望值官方未公布概率，本页按等概率假设做披露性说明，不构成参与建议
 - 完整红线见 `references/compliance.md`
-
-## 目标用户
-
-- 想回顾自己一年麦当劳消费记录的人
-- 想要一份能发朋友圈/群聊的年度报告的人
-- 想看看麦当劳 MCP 能做出什么不一样东西的开发者
 
 ## License
 

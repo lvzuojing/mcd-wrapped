@@ -1,66 +1,59 @@
 ---
 name: mcd-wrapped
-description: 生成麦当劳年度报告（M-CODE WRAPPED）——基于麦当劳 MCP 拉取本人真实点餐、积分、优惠券与抽奖数据，聚合成一份可分享的年度数据年报网页，并可选用方言语音播报。当用户说"麦当劳年度报告""麦麦年报""今年在麦当劳花了多少钱""M-CODE WRAPPED""帮我看看我的麦当劳消费"时使用本技能。
+description: 麦当劳数据可视化：把麦当劳 MCP 的公共数据（餐品营养、营销日历、抽奖池、优惠券、积分商城）聚合成一份可截图的全景报告；也支持接入个人 Token 生成年消费年报，并可选方言语音播报。当用户说"麦当劳年度报告""麦麦数据""麦当劳全景""今年在麦当劳花了多少钱""M-CODE WRAPPED"时使用本技能。
 agent_created: true
 ---
 
 # M-CODE WRAPPED
 
-把用户本人的麦当劳账户数据，变成一份可截图转发的年度报告网页，并可选生成方言语音版。
+麦当劳数据全景报告 + 个人年度消费年报 + 方言语音播报。
 
 ## 何时使用
 
-- 想看自己在麦当劳一年的消费、点餐习惯、积分与券的情况
-- 要一份能分享到社交平台的年度报告
-- 要求用方言（粤语、四川话等）把报告念出来
+- 想看麦当劳 MCP 能拿到哪些真实数据
+- 要一份可分享/可发朋友圈的麦当劳全景报告
+- 想看自己在麦当劳一年的消费记录
+- 想让 AI 用粤语/方言把报告念出来
 
 ## 前置条件
 
-需要麦当劳 MCP Token（open.mcd.cn 用手机号申请）。没有 Token 时走 dry-run，用演示数据出样张。
+- 麦当劳 MCP Token：在 open.mcd.cn 用手机号激活后复制 Token
+- 无 Token 时也能用演示数据出样张
 
 ## 工作流程
 
-### 第一步：确认数据来源
-
-- 有 Token：走真实采集（第二步）
-- 无 Token：执行 `python3 scripts/demo_data.py` 生成演示数据，并明确告知用户当前是演示数据
-
-### 第二步：采集真实数据
+### 公共全景报告（不需要消费记录）
 
 ```bash
 export MCD_MCP_TOKEN=<用户的token>
-python3 scripts/collect.py
+python3 scripts/public_data.py      # 采集公共数据 -> data/public_data.json
+python3 scripts/build_panorama.py    # -> out/mcd-wrapped.html
 ```
 
-依次调用 `order-list`、`mall-order-list`、`query-my-account`、`query-my-coupons`、
-`query-my-prizes`、`list-nutrition-foods`、`now-time-info`。原始响应全部落盘到
-`data/raw/`，归一化结果写入 `data/report_data.json`。
-
-若麦当劳 MCP 已作为连接器接入当前会话，也可直接调用这些 tool 并把结果交给
-`collect.py` 的解析函数处理。两条路径二选一，不要重复调用。
-
-解析出的订单数为 0 时，读 `data/raw/order-list.json`，按真实字段扩展 `collect.py`
-顶部的 `TIME_KEYS` / `NAME_KEYS` / `PRICE_KEYS` 等候选键列表，不要改动数据结构。
-
-### 第三步：生成报告
+### 个人年度消费年报
 
 ```bash
-python3 scripts/build_report.py            # -> out/mcd-wrapped.html
-python3 scripts/build_report.py --json     # 只看指标，不渲染
+export MCD_MCP_TOKEN=<用户的token>
+python3 scripts/collect.py          # 采集个人数据 -> data/report_data.json
+python3 scripts/build_report.py     # -> out/mcd-wrapped.html
 ```
 
-产出单文件 HTML，无外部依赖，可直接打开或截图。
-
-### 第四步：方言播报（可选）
+### 演示模式（无 Token）
 
 ```bash
-python3 scripts/speak.py --dialect cantonese    # 粤语
+python3 scripts/demo_data.py
+python3 scripts/build_report.py
+```
+
+### 方言播报（可选）
+
+```bash
+python3 scripts/speak.py --dialect cantonese
 python3 scripts/speak.py --dialect voxcpm --ref /path/to/dialect.wav
-python3 scripts/speak.py --dry-run              # 只打印播报稿
+python3 scripts/speak.py --dry-run
 ```
 
-后端按 VoxCPM2 → macOS 内置中文嗓音顺序自动回退。VoxCPM2 需 `VOXCPM_API_URL`
-指向本地 Gradio 服务，`VOXCPM_REF_AUDIO` 指向方言参考音频以克隆音色。
+后端按 VoxCPM2 → macOS 内置中文嗓音顺序自动回退。
 
 ## 输出口径
 
@@ -69,11 +62,14 @@ python3 scripts/speak.py --dry-run              # 只打印播报稿
 
 ## 资源
 
-- `scripts/mcp_client.py` — MCP Streamable HTTP 客户端，也可命令行列出/调用工具
-- `scripts/collect.py` — 采集与字段归一化
-- `scripts/demo_data.py` — 确定性演示数据，无 Token 也能出样张
-- `scripts/build_report.py` — 指标计算与 HTML 渲染
+- `scripts/mcp_client.py` — MCP Streamable HTTP 客户端
+- `scripts/public_data.py` — 公共数据采集与解析
+- `scripts/build_panorama.py` — 全景报告渲染
+- `scripts/collect.py` — 个人数据采集与字段归一化
+- `scripts/demo_data.py` — 确定性演示数据
+- `scripts/build_report.py` — 个人年报渲染
 - `scripts/speak.py` — 方言语音播报
-- `assets/report_template.html` — 报告模板
-- `references/mcp_tools.md` — 用到的 MCP tool 清单与字段说明
-- `references/compliance.md` — 输出内容的合规红线
+- `assets/panorama_template.html` — 全景报告模板
+- `assets/report_template.html` — 个人年报模板
+- `references/mcp_tools.md` — MCP tool 清单与踩坑记录
+- `references/compliance.md` — 合规红线

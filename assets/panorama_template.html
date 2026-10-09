@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{TITLE}} · 麦当劳数据全景报告</title>
+<style>
+:root{
+  --gold:#FFC72C; --red:#DA291C; --bg:#0d1117; --panel:#161b22;
+  --line:#21262d; --text:#e6edf3; --muted:#8b949e;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  line-height:1.6;padding:32px 16px 56px}
+.wrap{max-width:760px;margin:0 auto}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+
+header{border:1px solid var(--line);border-radius:16px;padding:30px 24px;
+  background:linear-gradient(160deg,#2a1114 0%,#161b22 55%,#0d1117 100%);
+  margin-bottom:20px;position:relative;overflow:hidden}
+header::after{content:"";position:absolute;right:-40px;top:-40px;width:180px;height:180px;
+  border-radius:50%;background:radial-gradient(circle,rgba(255,199,44,.16),transparent 70%)}
+h1{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:32px;
+  letter-spacing:2px;font-weight:600;position:relative}
+h1 em{color:var(--gold);font-style:normal}
+.sub{color:var(--muted);font-size:14px;margin-top:8px;position:relative}
+.meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px;
+  font-family:ui-monospace,monospace;font-size:12px;position:relative}
+.badge{border:1px solid var(--line);border-radius:999px;padding:3px 10px;color:var(--muted)}
+.badge.live{border-color:var(--gold);color:var(--gold)}
+.badge.red{border-color:var(--red);color:#ff6b60}
+
+h2{font-size:15px;font-weight:600;margin:30px 0 12px;display:flex;align-items:center;gap:8px}
+h2::before{content:"";width:3px;height:14px;background:var(--gold);border-radius:2px}
+h2 small{font-weight:400;font-size:11px;color:var(--muted);
+  font-family:ui-monospace,monospace;margin-left:auto}
+
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px}
+.clabel{font-size:11px;color:var(--muted);letter-spacing:.3px}
+.cvalue{font-family:ui-monospace,monospace;font-size:24px;color:var(--gold);
+  margin:4px 0 2px;word-break:break-all;line-height:1.2}
+.cvalue.red{color:#ff6b60}
+.csub{font-size:11px;color:var(--muted);line-height:1.4}
+
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+.row{display:grid;grid-template-columns:26px 1fr 84px 58px;align-items:center;
+  gap:8px;padding:6px 0;font-size:13px}
+.rank{font-family:ui-monospace,monospace;color:var(--muted);font-size:11px}
+.iname{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar{height:8px;background:#21262d;border-radius:4px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--gold);border-radius:4px}
+.bar.red i{background:var(--red)}
+.qty{font-family:ui-monospace,monospace;font-size:12px;color:var(--muted);text-align:right}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+
+/* timeline */
+.tl{position:relative;padding-left:20px}
+.tl::before{content:"";position:absolute;left:5px;top:6px;bottom:6px;width:2px;
+  background:linear-gradient(180deg,var(--gold),var(--red))}
+.ev{position:relative;padding:0 0 18px}
+.ev::before{content:"";position:absolute;left:-19px;top:6px;width:10px;height:10px;
+  border-radius:50%;background:var(--gold);border:2px solid var(--bg)}
+.ev.past::before{background:#30363d}
+.ev h3{font-size:14px;font-weight:600;line-height:1.4}
+.ev .when{font-family:ui-monospace,monospace;font-size:11px;color:var(--muted)}
+.ev .when b{color:var(--gold);font-weight:500}
+.ev .body{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.6}
+.ev img{max-width:100%;max-height:200px;width:auto;object-fit:cover;border-radius:8px;
+  margin-top:8px;display:block;border:1px solid var(--line)}
+
+/* prize / coupon grids */
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.pz{background:var(--panel);border:1px solid var(--line);border-radius:10px;
+  padding:10px;text-align:center}
+.pz img{width:52px;height:52px;object-fit:contain;margin-bottom:6px}
+.pz .pn{font-size:12px;line-height:1.35}
+.pz .pt{font-size:10px;color:var(--muted);margin-top:3px;font-family:ui-monospace,monospace}
+.pz.pts{border-color:var(--gold)}
+.pz.pts .pn{color:var(--gold)}
+
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.cp{background:var(--panel);border:1px solid var(--line);border-radius:10px;
+  padding:10px;display:flex;gap:10px;align-items:center}
+.cp img{width:56px;height:56px;object-fit:cover;border-radius:8px;flex:none;background:#0d1117}
+.cp .ct{font-size:13px;font-weight:500}
+.cp .cs{font-size:11px;color:var(--gold);margin-top:2px}
+
+/* mall */
+.mall{width:100%;border-collapse:collapse;font-size:12px}
+.mall th{text-align:left;color:var(--muted);font-weight:500;
+  border-bottom:1px solid var(--line);padding:6px 8px;font-size:11px}
+.mall td{padding:7px 8px;border-bottom:1px solid #1b2027;vertical-align:top}
+.mall td.n{color:var(--text)}
+.mall td.p{font-family:ui-monospace,monospace;color:var(--gold)}
+.mall td.c{color:var(--muted);white-space:nowrap}
+.mall tr:last-child td{border-bottom:none}
+
+.note{font-size:11px;color:var(--muted);line-height:1.7;margin-top:10px;
+  padding:10px 12px;border:1px dashed var(--line);border-radius:8px;background:#10151c}
+.note b{color:var(--text)}
+.empty{text-align:center;padding:26px 16px;color:var(--muted);font-size:13px}
+footer{margin-top:30px;padding-top:16px;border-top:1px solid var(--line);
+  font-size:11px;color:var(--muted);line-height:1.8}
+@media(max-width:600px){.cards{grid-template-columns:repeat(2,1fr)}
+  .grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>{{TITLE}}</h1>
+  <div class="sub">{{SUBTITLE}}</div>
+  <div class="meta">
+    <span class="badge live">{{SOURCE_BADGE}}</span>
+    <span class="badge">{{GENERATED}}</span>
+    <span class="badge">{{TOOL_COUNT}} MCP TOOLS</span>
+    <span class="badge red">{{DATA_POINTS}} DATA POINTS</span>
+  </div>
+</header>
+
+<h2>数据总览 <small>snapshot</small></h2>
+<div class="cards">{{CARDS}}</div>
+
+<h2>餐品营养大盘点 <small>list-nutrition-foods</small></h2>
+<div class="cards" style="margin-bottom:12px">{{NUTRI_STATS}}</div>
+<div class="grid2">
+  <div class="panel">
+    <div style="font-size:12px;color:var(--muted);margin-bottom:8px">热量最高 TOP 10</div>
+    {{KCAL_TOP}}
+  </div>
+  <div class="panel">
+    <div style="font-size:12px;color:var(--muted);margin-bottom:8px">热量最低 TOP 10</div>
+    {{KCAL_LOW}}
+  </div>
+</div>
+<div class="panel" style="margin-top:12px">
+  <div style="font-size:12px;color:var(--muted);margin-bottom:6px">热量分布（每 100 kcal 一档）</div>
+  {{KCAL_HIST}}
+</div>
+<div class="note">营养数据取自麦当劳官方 <b>list-nutrition-foods</b> 接口，为单品参考值，非膳食建议。"0 kcal" 条目主要为饮品；所有数字按官方原始值绘制，未做排除。</div>
+
+<h2>本月营销日历 <small>campaign-calendar</small></h2>
+<div class="panel"><div class="tl">{{CALENDAR}}</div></div>
+
+<h2>积分抽奖池真相 <small>query-lottery-info</small></h2>
+<div class="cards" style="margin-bottom:12px">{{LOTTERY_CARDS}}</div>
+<div class="panel"><div class="pgrid">{{PRIZE_GRID}}</div></div>
+<div class="note">{{LOTTERY_NOTE}}</div>
+
+<h2>麦麦省可领券 <small>available-coupons</small></h2>
+<div class="panel"><div class="cgrid">{{COUPON_GRID}}</div></div>
+
+<h2>麦麦商城积分兑换 <small>mall-points-products</small></h2>
+<div class="panel" style="margin-bottom:12px">{{MALL_CATS}}</div>
+<div class="panel"><table class="mall">{{MALL_LIST}}</table></div>
+
+<footer>
+  {{FOOTNOTE}}
+</footer>
+
+</div>
+</body>
+</html>

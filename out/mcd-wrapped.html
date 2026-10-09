@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>M-CODE WRAPPED · 你的麦当劳年度报告</title>
+<title>M-CODE WRAPPED · 麦当劳数据全景报告</title>
 <style>
 :root{
   --gold:#FFC72C; --red:#DA291C; --bg:#0d1117; --panel:#161b22;
@@ -13,105 +13,152 @@
 body{background:var(--bg);color:var(--text);
   font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
   line-height:1.6;padding:32px 16px 56px}
-.wrap{max-width:680px;margin:0 auto}
-header{border:1px solid var(--line);border-radius:14px;padding:28px 24px;
-  background:linear-gradient(180deg,#161b22 0%,#0d1117 100%);margin-bottom:20px}
+.wrap{max-width:760px;margin:0 auto}
 .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
-h1{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:30px;
-  letter-spacing:2px;font-weight:600}
+
+header{border:1px solid var(--line);border-radius:16px;padding:30px 24px;
+  background:linear-gradient(160deg,#2a1114 0%,#161b22 55%,#0d1117 100%);
+  margin-bottom:20px;position:relative;overflow:hidden}
+header::after{content:"";position:absolute;right:-40px;top:-40px;width:180px;height:180px;
+  border-radius:50%;background:radial-gradient(circle,rgba(255,199,44,.16),transparent 70%)}
+h1{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:32px;
+  letter-spacing:2px;font-weight:600;position:relative}
 h1 em{color:var(--gold);font-style:normal}
-.sub{color:var(--muted);font-size:14px;margin-top:6px}
-.meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;
-  font-family:ui-monospace,monospace;font-size:12px}
+.sub{color:var(--muted);font-size:14px;margin-top:8px;position:relative}
+.meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px;
+  font-family:ui-monospace,monospace;font-size:12px;position:relative}
 .badge{border:1px solid var(--line);border-radius:999px;padding:3px 10px;color:var(--muted)}
 .badge.live{border-color:var(--gold);color:var(--gold)}
-h2{font-size:15px;font-weight:600;margin:26px 0 12px;display:flex;align-items:center;gap:8px}
+.badge.red{border-color:var(--red);color:#ff6b60}
+
+h2{font-size:15px;font-weight:600;margin:30px 0 12px;display:flex;align-items:center;gap:8px}
 h2::before{content:"";width:3px;height:14px;background:var(--gold);border-radius:2px}
+h2 small{font-weight:400;font-size:11px;color:var(--muted);
+  font-family:ui-monospace,monospace;margin-left:auto}
+
 .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px}
-.clabel{font-size:12px;color:var(--muted)}
-.cvalue{font-family:ui-monospace,monospace;font-size:22px;color:var(--gold);
-  margin:4px 0 2px;word-break:break-all}
-.csub{font-size:11px;color:var(--muted)}
+.clabel{font-size:11px;color:var(--muted);letter-spacing:.3px}
+.cvalue{font-family:ui-monospace,monospace;font-size:24px;color:var(--gold);
+  margin:4px 0 2px;word-break:break-all;line-height:1.2}
+.cvalue.red{color:#ff6b60}
+.csub{font-size:11px;color:var(--muted);line-height:1.4}
+
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
-.row{display:grid;grid-template-columns:28px 1fr 90px 52px;align-items:center;
+.row{display:grid;grid-template-columns:26px 1fr 84px 58px;align-items:center;
   gap:8px;padding:6px 0;font-size:13px}
-.rank{font-family:ui-monospace,monospace;color:var(--muted);font-size:12px}
+.rank{font-family:ui-monospace,monospace;color:var(--muted);font-size:11px}
 .iname{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .bar{height:8px;background:#21262d;border-radius:4px;overflow:hidden}
 .bar i{display:block;height:100%;background:var(--gold);border-radius:4px}
+.bar.red i{background:var(--red)}
 .qty{font-family:ui-monospace,monospace;font-size:12px;color:var(--muted);text-align:right}
-.cells{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
-.cell{border-radius:8px;padding:10px 4px;text-align:center;min-height:58px;
-  display:flex;flex-direction:column;justify-content:center;gap:2px}
-.cell b{font-size:12px;color:#0d1117;font-weight:600}
-.cell span{font-family:ui-monospace,monospace;font-size:11px;color:#0d1117;opacity:.75}
-.strip{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.kv{display:flex;justify-content:space-between;padding:7px 0;
-  border-bottom:1px dashed var(--line);font-size:13px}
-.kv:last-child{border-bottom:none}
-.kv span{color:var(--muted)}
-.kv b{font-family:ui-monospace,monospace;color:var(--text);font-weight:500}
-footer{margin-top:28px;padding-top:16px;border-top:1px solid var(--line);
-  font-size:11px;color:var(--muted);line-height:1.7}
-@media(max-width:560px){.cards{grid-template-columns:repeat(2,1fr)}
-  .cells{grid-template-columns:repeat(4,1fr)}}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+
+/* timeline */
+.tl{position:relative;padding-left:20px}
+.tl::before{content:"";position:absolute;left:5px;top:6px;bottom:6px;width:2px;
+  background:linear-gradient(180deg,var(--gold),var(--red))}
+.ev{position:relative;padding:0 0 18px}
+.ev::before{content:"";position:absolute;left:-19px;top:6px;width:10px;height:10px;
+  border-radius:50%;background:var(--gold);border:2px solid var(--bg)}
+.ev.past::before{background:#30363d}
+.ev h3{font-size:14px;font-weight:600;line-height:1.4}
+.ev .when{font-family:ui-monospace,monospace;font-size:11px;color:var(--muted)}
+.ev .when b{color:var(--gold);font-weight:500}
+.ev .body{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.6}
+.ev img{max-width:100%;max-height:200px;width:auto;object-fit:cover;border-radius:8px;
+  margin-top:8px;display:block;border:1px solid var(--line)}
+
+/* prize / coupon grids */
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.pz{background:var(--panel);border:1px solid var(--line);border-radius:10px;
+  padding:10px;text-align:center}
+.pz img{width:52px;height:52px;object-fit:contain;margin-bottom:6px}
+.pz .pn{font-size:12px;line-height:1.35}
+.pz .pt{font-size:10px;color:var(--muted);margin-top:3px;font-family:ui-monospace,monospace}
+.pz.pts{border-color:var(--gold)}
+.pz.pts .pn{color:var(--gold)}
+
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.cp{background:var(--panel);border:1px solid var(--line);border-radius:10px;
+  padding:10px;display:flex;gap:10px;align-items:center}
+.cp img{width:56px;height:56px;object-fit:cover;border-radius:8px;flex:none;background:#0d1117}
+.cp .ct{font-size:13px;font-weight:500}
+.cp .cs{font-size:11px;color:var(--gold);margin-top:2px}
+
+/* mall */
+.mall{width:100%;border-collapse:collapse;font-size:12px}
+.mall th{text-align:left;color:var(--muted);font-weight:500;
+  border-bottom:1px solid var(--line);padding:6px 8px;font-size:11px}
+.mall td{padding:7px 8px;border-bottom:1px solid #1b2027;vertical-align:top}
+.mall td.n{color:var(--text)}
+.mall td.p{font-family:ui-monospace,monospace;color:var(--gold)}
+.mall td.c{color:var(--muted);white-space:nowrap}
+.mall tr:last-child td{border-bottom:none}
+
+.note{font-size:11px;color:var(--muted);line-height:1.7;margin-top:10px;
+  padding:10px 12px;border:1px dashed var(--line);border-radius:8px;background:#10151c}
+.note b{color:var(--text)}
+.empty{text-align:center;padding:26px 16px;color:var(--muted);font-size:13px}
+footer{margin-top:30px;padding-top:16px;border-top:1px solid var(--line);
+  font-size:11px;color:var(--muted);line-height:1.8}
+@media(max-width:600px){.cards{grid-template-columns:repeat(2,1fr)}
+  .grid2{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="wrap">
 
 <header>
-  <h1><em>M-CODE WRAPPED</em></h1>
-  <div class="sub">你的麦当劳年度开发日志</div>
+  <h1>M-CODE WRAPPED</h1>
+  <div class="sub">麦当劳数据全景报告 · 一次看透 MNCP 能拿到什么</div>
   <div class="meta">
-    <span class="badge">2025-10-12 至 2026-10-07</span>
-    <span class="badge live">演示数据 · dry-run</span>
-    <span class="badge">generated 2026-10-09 17:24:16</span>
+    <span class="badge live">100% 真实数据 · MNCP</span>
+    <span class="badge">2026-10-09 18:11:48</span>
+    <span class="badge">8 MCP TOOLS</span>
+    <span class="badge red">254 DATA POINTS</span>
   </div>
 </header>
 
-<h2>年度概览</h2>
-<div class="cards"><div class="card"><div class="clabel">年度下单总数</div><div class="cvalue">138</div><div class="csub">笔 · 相当于 138 次 commit</div></div><div class="card"><div class="clabel">年度消费总额</div><div class="cvalue">¥4384</div><div class="csub">客单价 ¥31.8</div></div><div class="card"><div class="clabel">优惠券省下</div><div class="cvalue">¥780</div><div class="csub">能再买 130 个甜筒</div></div><div class="card"><div class="clabel">深夜订单占比</div><div class="cvalue">7%</div><div class="csub">22:00 后的 10 笔 · 深夜编译指数</div></div><div class="card"><div class="clabel">最常去的门店</div><div class="cvalue">麦当劳(国贸三期店)</div><div class="csub">光顾 35 次</div></div><div class="card"><div class="clabel">连续打卡纪录</div><div class="cvalue">5 天</div><div class="csub">麦龄 359 天</div></div></div>
+<h2>数据总览 <small>snapshot</small></h2>
+<div class="cards"><div class="card"><div class="clabel">餐品营养档案</div><div class="cvalue">158</div><div class="csub">官方营养库单品数</div></div><div class="card"><div class="clabel">本月营销活动</div><div class="cvalue">30</div><div class="csub">来自官方活动日历</div></div><div class="card"><div class="clabel">抽奖奖品种类</div><div class="cvalue">10</div><div class="csub">麦麦积分抽奖</div></div><div class="card"><div class="clabel">单次抽奖积分</div><div class="cvalue">24</div><div class="csub">积分消耗 · 进行中</div></div><div class="card"><div class="clabel">积分商城商品</div><div class="cvalue">50</div><div class="csub">含派对 · 周边 · 权益</div></div><div class="card"><div class="clabel">可领优惠券</div><div class="cvalue">6</div><div class="csub">麦麦省当前可领取</div></div></div>
 
-<h2>每月下单量</h2>
-<div class="panel"><svg viewBox="0 0 620 140" width="100%" height="140" role="img" aria-label="近一年每月下单数"><rect x="9.8" y="14" width="32.0" height="106" rx="3" fill="#FFC72C"/><text x="25.8" y="9" font-size="10" fill="#8b949e" text-anchor="middle" font-family="ui-monospace,monospace">16</text><text x="25.8" y="134" font-size="10" fill="#6e7681" text-anchor="middle" font-family="ui-monospace,monospace">11</text><rect x="61.5" y="28" width="32.0" height="92" rx="3" fill="#FFC72C"/><text x="77.5" y="23" font-size="10" fill="#8b949e" text-anchor="middle" font-family="ui-monospace,monospace">14</text><text x="77.5" y="134" font-size="10" fill="#6e7681" text-anchor="middle" font-family="ui-monospace,monospace">12</text><rect x="113.1" y="61" width="32.0" height="59" rx="3" fill="#FFC72C"/><text x="129.2" y="56" font-size="10" fill="#8b949e" text-anchor="middle" font-family="ui-monospace,monospace">9</text><text x="129.2" y="134" font-size="10" fill="#6e7681" text-anchor="middle" font-family="ui-monospace,monospace">01</text><rect x="164.8" y="48" width="32.0" height="72" rx="3" fill="#FFC72C"/><text x="180.8" y="43" font-size="10" fill="#8b949e" text-anchor="middle" font-family="ui-monospace,monospace">11</text><text x="180.8" y="134" font-size="10" fill="#6e7681" text-anchor="middle" font-family="ui-monospace,monospace">02</text><rect x="216.5" y="34" width="32.0" height="86" rx="3" fill="#FFC72C"/><text x="232.5" y="29" font-size="10" fill="#8b949e" text-anchor="middle" font-family="ui-monospace,monospace">13</text><text x="232.5" y="134" font-size="10" fill="#6e7681" text-anchor="middle" font-family="ui-monospace,monospace">03</text><rect x="268.1" y="74" width="32.0" height="46" rx="3" fill="#FFC72C"/><text x="284.2" y="69" font-size="10" fill="#8b949e" text-anchor="middle" font-family="ui-monospace,monospace">7</text><text x="284.2" y="134" font-size="10" fill="#6e7681" text-anchor="middle" font-family="ui-monospace,monospace">04</text><rect x="319.8" y="81" width="32.0" height="39" rx="3" fill="#FFC72C"/><text x="335.8" y="76" font-size="10" fill="#8b949e" text-anchor="middle" font-family="ui-monospace,monospace">6</text><text x="335.8" y="134" font-size="10" fill="#6e7681" text-anchor="middle" font-family="ui-monospace,monospace">05</text><rect x="371.5" y="41" width="32.0" height="79" rx="3" fill="#FFC72C"/><text x="387.5" y="36" font-size="10" fill="#8b949e" text-anchor="middle" font-family="ui-monospace,monospace">12</text><text x="387.5" y="134" font-size="10" fill="#6e7681" text-anchor="middle" font-family="ui-monospace,monospace">06</text><rect x="423.1" y="48" width="32.0" height="72" rx="3" fill="#FFC72C"/><text x="439.2" y="43" font-size="10" fill="#8b949e" text-anchor="middle" font-family="ui-monospace,monospace">11</text><text x="439.2" y="134" font-size="10" fill="#6e7681" text-anchor="middle" font-family="ui-monospace,monospace">07</text><rect x="474.8" y="41" width="32.0" height="79" rx="3" fill="#FFC72C"/><text x="490.8" y="36" font-size="10" fill="#8b949e" text-anchor="middle" font-family="ui-monospace,monospace">12</text><text x="490.8" y="134" font-size="10" fill="#6e7681" text-anchor="middle" font-family="ui-monospace,monospace">08</text><rect x="526.5" y="48" width="32.0" height="72" rx="3" fill="#FFC72C"/><text x="542.5" y="43" font-size="10" fill="#8b949e" text-anchor="middle" font-family="ui-monospace,monospace">11</text><text x="542.5" y="134" font-size="10" fill="#6e7681" text-anchor="middle" font-family="ui-monospace,monospace">09</text><rect x="578.1" y="74" width="32.0" height="46" rx="3" fill="#FFC72C"/><text x="594.2" y="69" font-size="10" fill="#8b949e" text-anchor="middle" font-family="ui-monospace,monospace">7</text><text x="594.2" y="134" font-size="10" fill="#6e7681" text-anchor="middle" font-family="ui-monospace,monospace">10</text></svg></div>
-
-<h2>高频单品</h2>
-<div class="panel"><div class="row"><span class="rank">01</span><span class="iname">麦辣鸡腿堡</span><span class="bar"><i style="width:100%"></i></span><span class="qty">32 份</span></div><div class="row"><span class="rank">02</span><span class="iname">双层吉士汉堡</span><span class="bar"><i style="width:90%"></i></span><span class="qty">29 份</span></div><div class="row"><span class="rank">03</span><span class="iname">大薯条</span><span class="bar"><i style="width:68%"></i></span><span class="qty">22 份</span></div><div class="row"><span class="rank">04</span><span class="iname">麦旋风</span><span class="bar"><i style="width:65%"></i></span><span class="qty">21 份</span></div><div class="row"><span class="rank">05</span><span class="iname">板烧鸡腿堡</span><span class="bar"><i style="width:62%"></i></span><span class="qty">20 份</span></div><div class="row"><span class="rank">06</span><span class="iname">零度可乐</span><span class="bar"><i style="width:62%"></i></span><span class="qty">20 份</span></div></div>
-
-<h2>周几最想吃麦麦</h2>
-<div class="panel"><div class="cells"><div class="cell" style="background:rgba(255,199,44,1.00)"><b>周一</b><span>28</span></div><div class="cell" style="background:rgba(255,199,44,0.48)"><b>周二</b><span>11</span></div><div class="cell" style="background:rgba(255,199,44,0.91)"><b>周三</b><span>25</span></div><div class="cell" style="background:rgba(255,199,44,0.76)"><b>周四</b><span>20</span></div><div class="cell" style="background:rgba(255,199,44,0.57)"><b>周五</b><span>14</span></div><div class="cell" style="background:rgba(255,199,44,0.54)"><b>周六</b><span>13</span></div><div class="cell" style="background:rgba(255,199,44,0.97)"><b>周日</b><span>27</span></div></div></div>
-
-<h2>一些数字</h2>
-<div class="panel">
-  <div class="strip">
-    <div>
-      <div class="kv"><span>年度最爱</span><b>麦辣鸡腿堡 × 32</b></div>
-      <div class="kv"><span>下单高峰</span><b>19 点</b></div>
-      <div class="kv"><span>取餐方式</span><b>外送 41% / 到店 59%</b></div>
-    </div>
-    <div>
-      <div class="kv"><span>累计能量</span><b>109210 kcal</b></div>
-      <div class="kv"><span>约合步行</span><b>1761.5 km</b></div>
-      <div class="kv"><span>京沪长途</span><b>1.5 趟</b></div>
-      <div class="kv"><span>可用积分</span><b>1280</b></div>
-      <div class="kv"><span>即将过期</span><b>300</b></div>
-    </div>
+<h2>餐品营养大盘点 <small>list-nutrition-foods</small></h2>
+<div class="cards" style="margin-bottom:12px"><div class="card"><div class="clabel">平均单品热量</div><div class="cvalue">229</div><div class="csub">kcal / 单品</div></div><div class="card"><div class="clabel">热量中位数</div><div class="cvalue">202</div><div class="csub">kcal · 半数餐品低于此</div></div><div class="card"><div class="clabel">最高单品</div><div class="cvalue red">1003</div><div class="csub">芝士双层安格斯厚牛堡</div></div><div class="card"><div class="clabel">最低单品</div><div class="cvalue">0</div><div class="csub">无糖可口可乐中杯</div></div><div class="card"><div class="clabel">≥500 kcal 单品</div><div class="cvalue">6</div><div class="csub">占 4%</div></div><div class="card"><div class="clabel">&lt;200 kcal 单品</div><div class="cvalue">78</div><div class="csub">占 49%</div></div></div>
+<div class="grid2">
+  <div class="panel">
+    <div style="font-size:12px;color:var(--muted);margin-bottom:8px">热量最高 TOP 10</div>
+    <div class="row"><span class="rank">01</span><span class="iname" title="芝士双层安格斯厚牛堡">芝士双层安格斯厚牛堡</span><span class="bar red"><i style="width:100%"></i></span><span class="qty">1003</span></div><div class="row"><span class="rank">02</span><span class="iname" title="培根双层安格斯厚牛堡">培根双层安格斯厚牛堡</span><span class="bar red"><i style="width:98%"></i></span><span class="qty">987</span></div><div class="row"><span class="rank">03</span><span class="iname" title="培根安格斯厚牛堡">培根安格斯厚牛堡</span><span class="bar red"><i style="width:70%"></i></span><span class="qty">707</span></div><div class="row"><span class="rank">04</span><span class="iname" title="芝士安格斯厚牛堡">芝士安格斯厚牛堡</span><span class="bar red"><i style="width:69%"></i></span><span class="qty">696</span></div><div class="row"><span class="rank">05</span><span class="iname" title="巨无霸">巨无霸</span><span class="bar red"><i style="width:51%"></i></span><span class="qty">513</span></div><div class="row"><span class="rank">06</span><span class="iname" title="双层猪柳蛋麦满分">双层猪柳蛋麦满分</span><span class="bar red"><i style="width:51%"></i></span><span class="qty">513</span></div><div class="row"><span class="rank">07</span><span class="iname" title="牛气满满">牛气满满</span><span class="bar red"><i style="width:49%"></i></span><span class="qty">495</span></div><div class="row"><span class="rank">08</span><span class="iname" title="不素之霸双层牛堡">不素之霸双层牛堡</span><span class="bar red"><i style="width:49%"></i></span><span class="qty">493</span></div><div class="row"><span class="rank">09</span><span class="iname" title="麦辣鸡腿汉堡">麦辣鸡腿汉堡</span><span class="bar red"><i style="width:48%"></i></span><span class="qty">485</span></div><div class="row"><span class="rank">10</span><span class="iname" title="双层深海鳕鱼堡">双层深海鳕鱼堡</span><span class="bar red"><i style="width:48%"></i></span><span class="qty">485</span></div>
+  </div>
+  <div class="panel">
+    <div style="font-size:12px;color:var(--muted);margin-bottom:8px">热量最低 TOP 10</div>
+    <div class="row"><span class="rank">01</span><span class="iname" title="无糖可口可乐中杯">无糖可口可乐中杯</span><span class="bar"><i style="width:3%"></i></span><span class="qty">0</span></div><div class="row"><span class="rank">02</span><span class="iname" title="无糖可口可乐大杯">无糖可口可乐大杯</span><span class="bar"><i style="width:3%"></i></span><span class="qty">0</span></div><div class="row"><span class="rank">03</span><span class="iname" title="无糖可口可乐小杯">无糖可口可乐小杯</span><span class="bar"><i style="width:3%"></i></span><span class="qty">0</span></div><div class="row"><span class="rank">04</span><span class="iname" title="纯悦">纯悦</span><span class="bar"><i style="width:3%"></i></span><span class="qty">0</span></div><div class="row"><span class="rank">05</span><span class="iname" title="锡兰红茶">锡兰红茶</span><span class="bar"><i style="width:3%"></i></span><span class="qty">2</span></div><div class="row"><span class="rank">06</span><span class="iname" title="川宁伯爵红茶">川宁伯爵红茶</span><span class="bar"><i style="width:3%"></i></span><span class="qty">2</span></div><div class="row"><span class="rank">07</span><span class="iname" title="冰美式小杯">冰美式小杯</span><span class="bar"><i style="width:3%"></i></span><span class="qty">10</span></div><div class="row"><span class="rank">08</span><span class="iname" title="热美式小杯">热美式小杯</span><span class="bar"><i style="width:3%"></i></span><span class="qty">10</span></div><div class="row"><span class="rank">09</span><span class="iname" title="大杯鲜萃咖啡">大杯鲜萃咖啡</span><span class="bar"><i style="width:3%"></i></span><span class="qty">13</span></div><div class="row"><span class="rank">10</span><span class="iname" title="浓缩咖啡">浓缩咖啡</span><span class="bar"><i style="width:3%"></i></span><span class="qty">13</span></div>
   </div>
 </div>
-
-<h2>积分与券</h2>
-<div class="panel">
-  <div class="kv"><span>麦麦商城订单</span><b>9 笔</b></div>
-  <div class="kv"><span>在手优惠券</span><b>3 张</b></div>
-  <div class="kv"><span>抽奖获得奖品</span><b>2 份</b></div>
+<div class="panel" style="margin-top:12px">
+  <div style="font-size:12px;color:var(--muted);margin-bottom:6px">热量分布（每 100 kcal 一档）</div>
+  <svg viewBox="0 0 690 150" width="100%" height="150" role="img" aria-label="餐品热量分布"><rect x="9.4" y="75" width="43.9" height="51" rx="3" fill="#FFC72C"/><text x="31.4" y="70" font-size="10" fill="#8b949e" text-anchor="middle" font-family="ui-monospace,monospace">25</text><text x="31.4" y="142" font-size="9" fill="#6e7681" text-anchor="middle" font-family="ui-monospace,monospace">0</text><rect x="72.1" y="16" width="43.9" height="110" rx="3" fill="#FFC72C"/><text x="94.1" y="11" font-size="10" fill="#8b949e" text-anchor="middle" font-family="ui-monospace,monospace">53</text><text x="94.1" y="142" font-size="9" fill="#6e7681" text-anchor="middle" font-family="ui-monospace,monospace">100</text><rect x="134.9" y="41" width="43.9" height="85" rx="3" fill="#FFC72C"/><text x="156.8" y="36" font-size="10" fill="#8b949e" text-anchor="middle" font-family="ui-monospace,monospace">41</text><text x="156.8" y="142" font-size="9" fill="#6e7681" text-anchor="middle" font-family="ui-monospace,monospace">200</text><rect x="197.6" y="89" width="43.9" height="37" rx="3" fill="#FFC72C"/><text x="219.5" y="84" font-size="10" fill="#8b949e" text-anchor="middle" font-family="ui-monospace,monospace">18</text><text x="219.5" y="142" font-size="9" fill="#6e7681" text-anchor="middle" font-family="ui-monospace,monospace">300</text><rect x="260.3" y="95" width="43.9" height="31" rx="3" fill="#FFC72C"/><text x="282.3" y="90" font-size="10" fill="#8b949e" text-anchor="middle" font-family="ui-monospace,monospace">15</text><text x="282.3" y="142" font-size="9" fill="#6e7681" text-anchor="middle" font-family="ui-monospace,monospace">400</text><rect x="323.0" y="122" width="43.9" height="4" rx="3" fill="#DA291C"/><text x="345.0" y="117" font-size="10" fill="#8b949e" text-anchor="middle" font-family="ui-monospace,monospace">2</text><text x="345.0" y="142" font-size="9" fill="#6e7681" text-anchor="middle" font-family="ui-monospace,monospace">500</text><rect x="385.8" y="124" width="43.9" height="2" rx="3" fill="#DA291C"/><text x="407.7" y="119" font-size="10" fill="#8b949e" text-anchor="middle" font-family="ui-monospace,monospace">1</text><text x="407.7" y="142" font-size="9" fill="#6e7681" text-anchor="middle" font-family="ui-monospace,monospace">600</text><rect x="448.5" y="124" width="43.9" height="2" rx="3" fill="#DA291C"/><text x="470.5" y="119" font-size="10" fill="#8b949e" text-anchor="middle" font-family="ui-monospace,monospace">1</text><text x="470.5" y="142" font-size="9" fill="#6e7681" text-anchor="middle" font-family="ui-monospace,monospace">700</text><rect x="511.2" y="126" width="43.9" height="0" rx="3" fill="#DA291C"/><text x="533.2" y="142" font-size="9" fill="#6e7681" text-anchor="middle" font-family="ui-monospace,monospace">800</text><rect x="574.0" y="124" width="43.9" height="2" rx="3" fill="#DA291C"/><text x="595.9" y="119" font-size="10" fill="#8b949e" text-anchor="middle" font-family="ui-monospace,monospace">1</text><text x="595.9" y="142" font-size="9" fill="#6e7681" text-anchor="middle" font-family="ui-monospace,monospace">900</text><rect x="636.7" y="124" width="43.9" height="2" rx="3" fill="#DA291C"/><text x="658.6" y="119" font-size="10" fill="#8b949e" text-anchor="middle" font-family="ui-monospace,monospace">1</text><text x="658.6" y="142" font-size="9" fill="#6e7681" text-anchor="middle" font-family="ui-monospace,monospace">1000</text></svg>
 </div>
+<div class="note">营养数据取自麦当劳官方 <b>list-nutrition-foods</b> 接口，为单品参考值，非膳食建议。"0 kcal" 条目主要为饮品；所有数字按官方原始值绘制，未做排除。</div>
+
+<h2>本月营销日历 <small>campaign-calendar</small></h2>
+<div class="panel"><div class="tl"><div class="ev "><div class="when"><b>2026-10-23</b> · </div><h3>过家家派对上线，快来一起解锁梦想职业</h3><div class="body">过家家派对就要开始啦! 萌娃cosplay梦想职业，精美职业服带回家 DIY 创意手工，想象力在指尖自由绽放 9月9日到店解锁过家家派对 粉红姐姐带你玩转麦当劳，开启童趣一天~ &lt;img src=&quot;https://cms-cdn.mcd.cn/img/shor…</div></div><div class="ev "><div class="when"><b>2026-10-23</b> · </div><h3>🩶灰白撞色，灰焰圆筒酷爽登场</h3><div class="body">🩶灰焰圆筒酷爽上新！ 🍦浓郁香草味碰上酷灰脆筒，灰白撞色吸睛。 ✨入口绵密丝滑，一口咬下筒壳咔嚓酥脆。 😋绵密与香脆层层交织，一口解锁甜酷反差！ 还在等什么，马上尝新~ &lt;img src=&quot;https://cms-cdn.mcd.cn/img/short-co…</div></div><div class="ev "><div class="when"><b>2026-10-22</b> · </div><h3>第三周周边即将开售✨限定主题丝巾！</h3><div class="body">丝巾搭配棒球帽的潮流谁懂😎 麦当劳「我就喜欢」限定丝巾 任意餐品消费加 39.9 元即可得 颈间、包袋、手腕、头饰一巾多玩🤔 叠搭联名棒球帽&amp;徽章随心玩出专属潮流造型✨ 10月22日10:45开售 更有APP专享积分抢先购10:40开抢 get时尚icon同款…</div></div><div class="ev "><div class="when"><b>2026-10-18</b> · </div><h3>学生专属！49元150天麦金学期卡💳</h3><div class="body">💰仅0.33元/天，到手150天吃麦特权！ 5️⃣折起吃超值四件套、6折吃早餐 🛵每日两次满额免配，9.9元麦咖啡 🦉开卡还送多邻国月卡，美味和学习一步到位 👛新学期钱包不吃紧，开心吃麦快乐学习！ &lt;img src=&quot;https://cms-cdn.mcd.c…</div></div><div class="ev "><div class="when"><b>2026-10-15</b> · </div><h3>麦当劳 X PEACEMINUSONE</h3><div class="body">周边第二弹——联名徽章即将发售 任意餐品消费加39.9元即可得 集结MCD爱心、小雏菊和经典薯条元素🍟 一套三枚🖤限量珍藏 10月15日10:45开售 更有APP专享积分抢先购10:40开抢 &lt;img src=&quot;https://cms-cdn.mcd.cn/i…</div></div><div class="ev "><div class="when"><b>2026-10-14</b> · </div><h3>🍫麦咖啡13.9r浓浓黑巧来啦！</h3><div class="body">地道浓醇黑巧，风味浓郁醇厚 200目精细研磨工艺，触感丝滑如绒 戳下方，速来解锁！ &lt;img src=&quot;https://cms-cdn.mcd.cn/img/short-content/6142c8e169c5c3a97bf90047ca446a46.jpg&quot;…</div></div><div class="ev "><div class="when"><b>2026-10-13</b> · </div><h3>早餐爆款回归，快来pick你的厚松饼堡！📣</h3><div class="body">返工别紧张，厚松饼堡让你松软一下🫵 🥞甜甜松饼，软软口感 🍁经典枫糖风味和浓郁巧克力味两款可选🍫 10月8日起，指定套餐可享早餐卡6折优惠 3件套到手只要15元起，快来优惠吃 &lt;img src=&quot;https://cms-cdn.mcd.cn/img/short…</div></div><div class="ev "><div class="when"><b>2026-10-12</b> · </div><h3>乐享90分钟高质量亲子时间</h3><div class="body">打造高质量陪伴时光🎊 9本热门书籍且每月更新！ 更有开心乐园餐+随机玩具一份🎁 好吃又好玩！快报名参加吧~ &lt;img src=&quot;https://cms-cdn.mcd.cn/img/short-content/63bd426f45860fbe260252340…</div></div><div class="ev "><div class="when"><b>2026-10-12</b> · </div><h3>🫐一口爆汁！蓝莓爆爆珠麦旋风上新</h3><div class="body">🫐蓝莓爆爆珠麦旋风上新！ 💜清甜蓝莓碰上醇厚奶香，酸甜清爽。 💥真实蓝莓原浆x爆爆珠，颗颗爆汁好惊喜。 😋绵密冰淇淋撞上弹爽口感，莓好滋味层层爆开！ 还在等什么，马上尝新~ &lt;img src=&quot;https://cms-cdn.mcd.cn/img/short-…</div></div><div class="ev "><div class="when"><b>2026-10-11</b> · </div><h3>快来一起参加麦麦派对吧！</h3><div class="body">遛娃好去处🎉麦当劳趣读派对！ 6大环节，趣味互动✨ 好吃又好玩，快乐持续加倍！ 👇一起领取“读书小达人“证书吧~ &lt;img src=&quot;https://cms-cdn.mcd.cn/img/short-content/39e02c45a3b5d9febaf7ac…</div></div><div class="ev "><div class="when"><b>2026-10-11</b> · </div><h3>“韩”风刮到了四件套~龙焰鸡腿堡来袭！</h3><div class="body">🍔麦金卡点「龙焰鸡腿堡」四件套29元起 🍗韩式辣酱碰撞青梅黄油，爆脆鸡腿排多汁裹酱！ ✨一张麦金卡包揽全天吃麦特权 6折早餐、9.9元麦咖啡、满额免配统统安排 😋快来打卡美味，这场韩式盛宴等你加入！ &lt;img src=&quot;https://cms-cdn.mcd.…</div></div><div class="ev "><div class="when"><b>2026-10-10</b> · </div><h3>预约麦金喜抽奖，🉐[积分霸王餐]</h3><div class="body">宝子😸天上不会掉馅饼 😆但麦麦会掉落免费汉堡~ 💪麦金喜抽奖吃[积分霸王餐] 🍔免费龙焰鸡腿堡/麦辣鸡腿堡 抽奖时间：10月10日 00:00开始⏰速戳预约！ &lt;img src=&quot;https://cms-cdn.mcd.cn/img/short-content…</div></div><div class="ev "><div class="when"><b>2026-10-10</b> · </div><h3>韩式风味蘸酱上新❤️就「酱」心有所「薯」</h3><div class="body">🆕韩式辣椒黄油风味酱 韩式辣酱碰撞青梅，裹挟黄油香气 鸡薯双全盒仅需15.9元起✨getGD同款花式比心 🆕韩式烟熏芝士风味酱 浓郁芝香邂逅韩式香辛风味，烟熏香气层层释放 蘸酱炸鸡仅需11.9元起🍗 炸鸡薯饼蘸酱我全都喜欢！ 10月8日 10:30起正式开售⏰…</div></div><div class="ev "><div class="when"><b>2026-10-9</b> · 今日</div><h3>快来一起参加麦麦派对吧！</h3><div class="body">遛娃好去处🎉麦当劳趣读派对！ 6大环节，趣味互动✨ 好吃又好玩，快乐持续加倍！ 👇一起领取“读书小达人“证书吧~ &lt;img src=&quot;https://cms-cdn.mcd.cn/img/short-content/39e02c45a3b5d9febaf7ac…</div></div></div></div>
+
+<h2>积分抽奖池真相 <small>query-lottery-info</small></h2>
+<div class="cards" style="margin-bottom:12px"><div class="card"><div class="clabel">单次消耗</div><div class="cvalue">24</div><div class="csub">消耗积分抽奖</div></div><div class="card"><div class="clabel">奖品种类</div><div class="cvalue">10</div><div class="csub">券类 9 · 积分类 1</div></div><div class="card"><div class="clabel">活动状态</div><div class="cvalue">进行中</div><div class="csub">2025-01-26 ~ 2030-12-31</div></div></div>
+<div class="panel"><div class="pgrid"><div class="pz "><img src="https://img.mcd.cn/gallery/ce3b2ebc8f729b18.png" class="" loading="lazy" onerror="this.style.display='none'"><div class="pn">下单立减3元券</div><div class="pt">优惠券</div></div><div class="pz "><img src="https://img.mcd.cn/gallery/05e92c61916ad743.png" class="" loading="lazy" onerror="this.style.display='none'"><div class="pn">下单立减2元券</div><div class="pt">优惠券</div></div><div class="pz "><img src="https://img.mcd.cn/gallery/0c99483d7c138087.png" class="" loading="lazy" onerror="this.style.display='none'"><div class="pn">下单立减1元券</div><div class="pt">优惠券</div></div><div class="pz "><img src="https://img.mcd.cn/gallery/e74fa061787ebe92.png" class="" loading="lazy" onerror="this.style.display='none'"><div class="pn">麦辣三件套5折券</div><div class="pt">优惠券</div></div><div class="pz "><img src="https://img.mcd.cn/gallery/e74fa061787ebe92.png" class="" loading="lazy" onerror="this.style.display='none'"><div class="pn">板烧三件套5折券</div><div class="pt">优惠券</div></div><div class="pz "><img src="https://img.mcd.cn/gallery/6a840cacdc3ba372.png" class="" loading="lazy" onerror="this.style.display='none'"><div class="pn">双层鳕鱼三件套6折券</div><div class="pt">优惠券</div></div><div class="pz "><img src="https://img.mcd.cn/gallery/e74fa061787ebe92.png" class="" loading="lazy" onerror="this.style.display='none'"><div class="pn">甜辣小食组合5折券</div><div class="pt">优惠券</div></div><div class="pz "><img src="https://img.mcd.cn/gallery/b0300a3c60adbb80.png" class="" loading="lazy" onerror="this.style.display='none'"><div class="pn">小食四件套5.5折券</div><div class="pt">优惠券</div></div><div class="pz "><img src="https://img.mcd.cn/gallery/9c0a2a5cf2791217.png" class="" loading="lazy" onerror="this.style.display='none'"><div class="pn">麦旋风5折券</div><div class="pt">优惠券</div></div><div class="pz pts"><img src="https://img.mcd.cn/gallery/a09ad4c57399cd45.png" class="" loading="lazy" onerror="this.style.display='none'"><div class="pn">30积分</div><div class="pt">积分奖</div></div></div></div>
+<div class="note">奖池共 <b>10</b> 种奖品，单次消耗 <b>24 积分</b>。<br>奖池里唯一的积分奖为 <b>30 积分</b>，即抽中它相当于 1.25 倍返还。<br>官方未公布各奖品中奖概率，因此<b>无法计算精确期望值</b>；若假设 10 种奖品等概率，抽中积分奖的概率约为 10%，抽中任意优惠券类奖品约为 90%。<br>本页只做数据披露，不构成任何参与建议。</div>
+
+<h2>麦麦省可领券 <small>available-coupons</small></h2>
+<div class="panel"><div class="cgrid"><div class="cp"><img src="https://img.mcd.cn/cms/images/b4753dc54f708435.png" class="" loading="lazy" onerror="this.style.display='none'"><div><div class="ct">麦旋风任选</div><div class="cs">可领取 \</div></div></div><div class="cp"><img src="https://img.mcd.cn/cms/images/6e3477060dd7cd10.png" class="" loading="lazy" onerror="this.style.display='none'"><div><div class="ct">巧克力味厚松饼猪柳蛋套餐</div><div class="cs">可领取 \</div></div></div><div class="cp"><img src="https://mcd-portal-prod-cos1-1300270282.cos.ap-shanghai.myqcloud.com/campaign/prod/campaign-offer/coupon/2282ae7f4af441d0a81bd31bccfb1726/%E8%96%AF%E8%96%AF%E4%BB%BB%E9%80%89600x600.png?sign=q-sign-algorithm%3Dsha1%26q-ak%3DAKIDCD6mEcX25tVrjNxiPvEICas0uXyBKIBs%26q-sign-time%3D1790048410%3B1947728410%26q-key-time%3D1790048410%3B1947728410%26q-header-list%3D%26q-url-param-list%3D%26q-signature%3Dee1941039519538ab375b58d97b68373872efa5f" class="" loading="lazy" onerror="this.style.display='none'"><div><div class="ct">薯薯任选</div><div class="cs">可领取 \</div></div></div><div class="cp"><img src="https://mcd-portal-prod-cos1-1300270282.cos.ap-shanghai.myqcloud.com/campaign/prod/campaign-offer/coupon/0295cb54d2e24f4daba91b7b7a5a3dd5/%E5%85%8D%E8%B4%B9%E8%84%86%E8%96%AF%E9%A5%BC600.png?sign=q-sign-algorithm%3Dsha1%26q-ak%3DAKIDCD6mEcX25tVrjNxiPvEICas0uXyBKIBs%26q-sign-time%3D1774608147%3B1932288147%26q-key-time%3D1774608147%3B1932288147%26q-header-list%3D%26q-url-param-list%3D%26q-signature%3D9df7ad8f672007cbe5b0c268a401e446ada64902" class="" loading="lazy" onerror="this.style.display='none'"><div><div class="ct">免费脆薯饼</div><div class="cs">可领取 \</div></div></div><div class="cp"><img src="https://mcd-portal-prod-cos1-1300270282.cos.ap-shanghai.myqcloud.com/campaign/prod/campaign-offer/coupon/06da6d644ddb4e6282bba9893f5afe0d/600x600.png?sign=q-sign-algorithm%3Dsha1%26q-ak%3DAKIDCD6mEcX25tVrjNxiPvEICas0uXyBKIBs%26q-sign-time%3D1790568983%3B1948248983%26q-key-time%3D1790568983%3B1948248983%26q-header-list%3D%26q-url-param-list%3D%26q-signature%3D5a1d410a1bc55056a1021e94cbeebc2c6920472f" class="" loading="lazy" onerror="this.style.display='none'"><div><div class="ct">人气麦旋风买一送一</div><div class="cs">可领取 \</div></div></div><div class="cp"><img src="https://mcd-portal-prod-cos1-1300270282.cos.ap-shanghai.myqcloud.com/campaign/prod/campaign-offer/coupon/66a5597fe23246e698d9d63be003a951/9.9%E5%86%B0%E7%BE%8E%E5%BC%8F%E5%88%B8%E5%9B%BE600X600_compressed.png?sign=q-sign-algorithm%3Dsha1%26q-ak%3DAKIDCD6mEcX25tVrjNxiPvEICas0uXyBKIBs%26q-sign-time%3D1752487443%3B1910167443%26q-key-time%3D1752487443%3B1910167443%26q-header-list%3D%26q-url-param-list%3D%26q-signature%3Dbb50244da928a73c75aa906a93bdb2264ebace1d" class="" loading="lazy" onerror="this.style.display='none'"><div><div class="ct">9.9元中杯冰美式</div><div class="cs">可领取 \</div></div></div></div></div>
+
+<h2>麦麦商城积分兑换 <small>mall-points-products</small></h2>
+<div class="panel" style="margin-bottom:12px"><div class="cards" style="margin-bottom:12px"><div class="card"><div class="clabel">商品总数</div><div class="cvalue">50</div><div class="csub">在架可兑换</div></div><div class="card"><div class="clabel">平均现金价</div><div class="cvalue">¥74</div><div class="csub">含派对与周边</div></div><div class="card"><div class="clabel">纯现金商品</div><div class="cvalue">26</div><div class="csub">无需积分，直接购买</div></div></div><div class="row"><span class="rank">01</span><span class="iname">到店专用</span><span class="bar"><i style="width:100%"></i></span><span class="qty">22</span></div><div class="row"><span class="rank">02</span><span class="iname">主题类派对</span><span class="bar"><i style="width:59%"></i></span><span class="qty">13</span></div><div class="row"><span class="rank">03</span><span class="iname">生日类派对</span><span class="bar"><i style="width:27%"></i></span><span class="qty">6</span></div><div class="row"><span class="rank">04</span><span class="iname">品鉴会</span><span class="bar"><i style="width:27%"></i></span><span class="qty">6</span></div><div class="row"><span class="rank">05</span><span class="iname">读书会</span><span class="bar"><i style="width:4%"></i></span><span class="qty">1</span></div><div class="row"><span class="rank">06</span><span class="iname">玩具</span><span class="bar"><i style="width:4%"></i></span><span class="qty">1</span></div><div class="row"><span class="rank">07</span><span class="iname">鞋袜</span><span class="bar"><i style="width:4%"></i></span><span class="qty">1</span></div></div>
+<div class="panel"><table class="mall"><tr><th>商品</th><th>类目</th><th>积分</th><th>现金价</th></tr><tr><td class="n">麦当劳亲子读书会</td><td class="c">读书会</td><td class="p">—</td><td class="p">¥45</td></tr><tr><td class="n">麦当劳奇妙生日派对</td><td class="c">生日类派对</td><td class="p">—</td><td class="p">¥50</td></tr><tr><td class="n">麦当劳一起开心鸭尊享版生日派对</td><td class="c">生日类派对</td><td class="p">—</td><td class="p">¥138</td></tr><tr><td class="n">迪士尼奇妙生日探索之旅</td><td class="c">生日类派对</td><td class="p">—</td><td class="p">¥45</td></tr><tr><td class="n">开心特工派对 之 深海探秘</td><td class="c">主题类派对</td><td class="p">—</td><td class="p">¥198</td></tr><tr><td class="n">麦麦奇妙夜捣蛋派对尊享版</td><td class="c">主题类派对</td><td class="p">—</td><td class="p">¥128</td></tr><tr><td class="n">麦当劳过家家派对</td><td class="c">主题类派对</td><td class="p">—</td><td class="p">¥55</td></tr><tr><td class="n">四小福永远好朋友派对常规版</td><td class="c">主题类派对</td><td class="p">—</td><td class="p">¥58</td></tr><tr><td class="n">麦当劳过家家派对尊享版</td><td class="c">主题类派对</td><td class="p">—</td><td class="p">¥118</td></tr><tr><td class="n">四小福永远好朋友派对豪华版</td><td class="c">主题类派对</td><td class="p">—</td><td class="p">¥88</td></tr><tr><td class="n">万马奔腾开心派对常规版</td><td class="c">主题类派对</td><td class="p">—</td><td class="p">¥58</td></tr><tr><td class="n">麦当劳海底小纵队欢乐派对（常规版）</td><td class="c">主题类派对</td><td class="p">—</td><td class="p">¥58</td></tr><tr><td class="n">麦当劳趣读派对2025</td><td class="c">主题类派对</td><td class="p">—</td><td class="p">¥45</td></tr><tr><td class="n">麦当劳狂欢生日派对 迪士尼疯狂动物城主题（尊享版）</td><td class="c">生日类派对</td><td class="p">—</td><td class="p">¥98</td></tr><tr><td class="n">麦当劳狂欢生日派对 迪士尼疯狂动物城主题</td><td class="c">生日类派对</td><td class="p">—</td><td class="p">¥58</td></tr><tr><td class="n">麦当劳一起开心鸭生日派对</td><td class="c">生日类派对</td><td class="p">—</td><td class="p">¥50</td></tr><tr><td class="n">一年一度品虾会</td><td class="c">品鉴会</td><td class="p">—</td><td class="p">¥25.9</td></tr><tr><td class="n">金拱门板记尝新会</td><td class="c">品鉴会</td><td class="p">—</td><td class="p">¥29.9</td></tr><tr><td colspan="4" style="color:var(--muted);font-size:11px">…另有 32 件商品，完整清单见 data/public_data.json</td></tr></table></div>
 
 <footer>
-  本页由 mcd-wrapped 基于麦当劳 MCP 开放能力自动生成，数据来自本人麦当劳账户。<br>
-  能量数值为按公开餐品营养信息估算的参考值，不构成任何健康或营养建议。<br>
-  本作品为麦当劳程序员节创意开发大赛参赛项目，非麦当劳官方产品。
+  数据来源：麦当劳中国 MNCP（<span class='mono'>https://mcp.mcd.cn</span>），由本 Skill 实时调用 campaign-calendar、query-lottery-info、mall-points-products 等 8 个官方 tool 获取，未经人工编造。<br>生成方式：<span class='mono'>scripts/public_data.py</span> 采集 → <span class='mono'>scripts/build_panorama.py</span> 渲染。接入个人 Token 可再生成个人消费年报（<span class='mono'>scripts/collect.py</span>）。<br>本页为麦当劳 1024 程序员节创意开发大赛参赛作品，仅作数据可视化展示，不构成任何消费或参与建议。营养数据为官方单品参考值。
 </footer>
 
 </div>
